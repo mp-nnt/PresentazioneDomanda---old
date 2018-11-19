@@ -1,0 +1,130 @@
+<core:FragmentDefinition xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" controllerName="com.pabz.PresentazioneDomanda.controller.Main" displayBlock="true">
+	<Page>
+		<content>
+			<f:Form editable="true" id="personalData">
+				<f:layout>
+					<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
+						emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="2" columnsM="2" singleContainerFullSize="false"/>
+				</f:layout>
+				<f:formContainers>
+					<f:FormContainer title="{i18n>requester}" id="requester">
+						<f:formElements>
+							<f:FormElement label="{i18n>surname}" id="surname_lbl">
+								<f:fields>
+									<Input width="50%" id="surname_inp" value="{/surname}">
+										<layoutData>
+											<l:GridData span="XL2 L2 M2 S5"/>
+										</layoutData>
+									</Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>name}" id="name_lbl">
+								<f:fields>
+									<Input width="50%" id="name_inp" value="{/name}">
+										<layoutData>
+											<l:GridData span="XL2 L2 M2 S5"/>
+										</layoutData>
+									</Input>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>owner}" id="owner_lbl">
+								<f:fields>
+									<Input width="50%" id="owner_inp" value="{/owner}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>piva}" id="piva_lbl">
+								<f:fields>
+									<Input width="50%" id="piva_inp" value="{/piva}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>fiscalCode}" id="fiscalCode_lbl">
+								<f:fields>
+									<Input width="50%" id="fiscalCode_inp" value="{/fiscalCode}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>sector}" id="sector_lbl">
+								<f:fields>
+									<RadioButtonGroup class="sapUiMediumMarginBottom" id="sector_grp">
+										<buttons>
+											<RadioButton text="Artigianato" selected="{/craft}" groupName="gr_sector"/>
+											<RadioButton text="Industria" selected="{/industry}" groupName="gr_sector"/>
+											<RadioButton text="Commercio" selected="{/trade}" groupName="gr_sector"/>
+											<RadioButton text="Servizi" selected="{/services}" groupName="gr_sector"/>
+											<RadioButton text="Libero Professionista/Lavoratore Autonomo" selected="{/freelance}" groupName="gr_sector"/>
+										</buttons>
+									</RadioButtonGroup>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>state}" id="state_lbl">
+								<f:fields>
+									<Input width="50%" id="state_inp" value="{/state}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>region}" id="region_lbl">
+								<f:fields>
+									<Input width="50%" id="region_inp" value="{/region}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>postCode}" id="postCode_lbl">
+								<f:fields>
+									<Input width="50%" id="postCode_inp" value="{/postCode}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>city}" id="city_lbl">
+								<f:fields>
+									<Input width="50%" id="city_inp" value="{/city}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>district}" id="district_lbl">
+								<f:fields>
+									<Input width="50%" id="district_inp" value="{/district}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>street}" id="street_lbl">
+								<f:fields>
+									<Input width="50%" id="street_inp" value="{/street}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>streetNumber}" id="streetNumber_lbl">
+								<f:fields>
+									<Input width="50%" id="streetNumber_inp" value="{/streetNumber}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>telephone}" id="telephone_lbl">
+								<f:fields>
+									<Input width="50%" id="telephone_inp" value="{/telephone}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>mail}" id="mail_lbl">
+								<f:fields>
+									<Input width="50%" id="mail_inp" value="{/mail}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>pec}" id="pec_lbl">
+								<f:fields>
+									<Input width="50%" id="pec_inp" value="{/pec}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>iban}" id="iban_lbl">
+								<f:fields>
+									<Input width="50%" id="iban_inp" value="{/iban}"/>
+								</f:fields>
+							</f:FormElement>
+							<f:FormElement label="{i18n>language}" id="language_lbl">
+								<f:fields>
+									<RadioButtonGroup class="sapUiMediumMarginBottom" id="language_grp" columns="2">
+										<buttons>
+											<RadioButton text="Italiano" selected="{/italian}" groupName="gr_language"/>
+											<RadioButton text="Tedesco" selected="{/german}" groupName="gr_language"/>
+										</buttons>
+									</RadioButtonGroup>
+								</f:fields>
+							</f:FormElement>
+						</f:formElements>
+					</f:FormContainer>
+				</f:formContainers>
+			</f:Form>
+		</content>
+	</Page>
+</core:FragmentDefinition>

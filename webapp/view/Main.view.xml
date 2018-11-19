@@ -1,0 +1,38 @@
+<mvc:View xmlns:html="http://www.w3.org/1999/xhtml" xmlns:mvc="sap.ui.core.mvc" xmlns="sap.m" xmlns:l="sap.ui.layout"
+	xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" controllerName="com.pabz.PresentazioneDomanda.controller.Main" displayBlock="true">
+	<App id="idAppControl">
+		<pages>
+			<Page title="{i18n>title}">
+				<content>
+					<l:Splitter width="100%">
+						<l:HorizontalLayout id="left"></l:HorizontalLayout>
+						<l:HorizontalLayout id="request">
+							<l:content>
+								<IconTabBar id="bar">
+									<items>
+										<IconTabFilter id="personalData" icon="sap-icon://account" text="{i18n>personalData}">
+											<content>
+												<core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.personalData" type="XML"/>
+											</content>
+										</IconTabFilter>
+										<IconTabFilter id="statement" icon="sap-icon://task" text="{i18n>statement}">
+											<content>
+												<!--core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.statement" type="XML"/-->
+											</content>
+										</IconTabFilter>
+										<IconTabFilter id="investment" icon="sap-icon://monitor-payments" text="{i18n>investment}">
+											<content>
+												<!--core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.investment" type="XML"/-->
+											</content>
+										</IconTabFilter>
+									</items>
+								</IconTabBar>
+							</l:content>
+						</l:HorizontalLayout>
+						<l:HorizontalLayout id="right"/>
+					</l:Splitter>
+				</content>
+			</Page>
+		</pages>
+	</App>
+</mvc:View>
