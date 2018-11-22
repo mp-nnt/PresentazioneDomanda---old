@@ -25,7 +25,7 @@ sap.ui.define([
 
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
-			
+
 			// get WF task data
 			var startupParameters = this.getComponentData().startupParameters;
 			var taskModel = startupParameters.taskModel;
@@ -50,7 +50,6 @@ sap.ui.define([
 			}, function (button) {
 				this._completeTask(taskId, false);
 			}, this);
-
 		},
 
 		_completeTask: function (taskId, approvalStatus) {
@@ -94,6 +93,6 @@ sap.ui.define([
 		_refreshTask: function (taskId) {
 			this.getComponentData().startupParameters.inboxAPI.updateTask("NA", taskId);
 		}
-		}
+
 	});
 });
