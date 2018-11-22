@@ -39,7 +39,7 @@
 																<core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.investment" type="XML"/>
 															</content>
 														</IconTabFilter>
-														<IconTabFilter id="attachment" icon="sap-icon://monitor-payments" text="{i18n>attachment}">
+														<IconTabFilter id="attachment" icon="sap-icon://attachment" text="{i18n>attachment}">
 															<content>
 																<core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.attachment" type="XML"/>
 															</content>

@@ -40,13 +40,13 @@ sap.ui.define([
 			//add actions
 			startupParameters.inboxAPI.addAction({
 				action: "Confirm",
-				label: confirm
+				label: "Conferma"
 			}, function (button) {
 				this._completeTask(taskId, true);
 			}, this);
 			startupParameters.inboxAPI.addAction({
 				action: "Save",
-				label: save
+				label: "Salva Bozza"
 			}, function (button) {
 				this._completeTask(taskId, false);
 			}, this);
@@ -56,7 +56,6 @@ sap.ui.define([
 			var token = this._fetchToken();
 			var oModel = this.getModel();
 			oModel.setProperty("/confirm", approvalStatus);
-			var context = oModel.getJSON();
 
 			$.ajax({
 				url: "/bpmworkflowruntime/rest/v1/task-instances/" + taskId,
