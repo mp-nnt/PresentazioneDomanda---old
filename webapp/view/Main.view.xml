@@ -24,7 +24,7 @@
 												<layoutData>
 													<l:SplitterLayoutData id="dataC" resizable="false" size="auto"/>
 												</layoutData>
-												<IconTabBar id="bar">
+												<IconTabBar id="bar" backgroundDesign="Transparent" headerBackgroundDesign="Translucent">
 													<items>
 														<IconTabFilter id="personalData" icon="sap-icon://account" text="{i18n>personalData}">
 															<core:Fragment fragmentName="com.pabz.PresentazioneDomanda.view.fragment.personalData" type="XML"/>

@@ -82,17 +82,17 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>telephone}" id="telephone_lbl">
 						<f:fields>
-							<Input width="50%" id="telephone_inp" value="{/telephone}"/>
+							<Input width="50%" id="telephone_inp" value="{/telephone}" type="Tel"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>mail}" id="mail_lbl">
 						<f:fields>
-							<Input width="50%" id="mail_inp" value="{/mail}"/>
+							<Input width="50%" id="mail_inp" value="{/mail}" type="Email"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>pec}" id="pec_lbl">
 						<f:fields>
-							<Input width="50%" id="pec_inp" value="{/pec}"/>
+							<Input width="50%" id="pec_inp" value="{/pec}" type="Email"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>iban}" id="iban_lbl">
