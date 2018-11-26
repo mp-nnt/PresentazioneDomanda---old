@@ -36,11 +36,11 @@
 						<f:fields>
 							<RadioButtonGroup class="sapUiMediumMarginBottom" id="sector_grp">
 								<buttons>
-									<RadioButton text="Artigianato" selected="{/craft}" groupName="gr_sector"/>
-									<RadioButton text="Industria" selected="{/industry}" groupName="gr_sector"/>
-									<RadioButton text="Commercio" selected="{/trade}" groupName="gr_sector"/>
-									<RadioButton text="Servizi" selected="{/services}" groupName="gr_sector"/>
-									<RadioButton text="Libero Professionista/Lavoratore Autonomo" selected="{/freelance}" groupName="gr_sector"/>
+									<RadioButton text="{i18n>craft}" selected="{/craft}" groupName="gr_sector"/>
+									<RadioButton text="{i18n>industry}" selected="{/industry}" groupName="gr_sector"/>
+									<RadioButton text="{i18n>trade}" selected="{/trade}" groupName="gr_sector"/>
+									<RadioButton text="{i18n>services}" selected="{/services}" groupName="gr_sector"/>
+									<RadioButton text="{i18n>freelance}" selected="{/freelance}" groupName="gr_sector"/>
 								</buttons>
 							</RadioButtonGroup>
 						</f:fields>
@@ -104,8 +104,8 @@
 						<f:fields>
 							<RadioButtonGroup class="sapUiMediumMarginBottom" id="language_grp" columns="2">
 								<buttons>
-									<RadioButton text="Italiano" selected="{/italian}" groupName="gr_language"/>
-									<RadioButton text="Tedesco" selected="{/german}" groupName="gr_language"/>
+									<RadioButton text="{i18n>italian}" selected="{/italian}" groupName="gr_language"/>
+									<RadioButton text="{i18n>german}" selected="{/german}" groupName="gr_language"/>
 								</buttons>
 							</RadioButtonGroup>
 						</f:fields>
