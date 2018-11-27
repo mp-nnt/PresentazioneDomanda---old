@@ -34,7 +34,7 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>sector}" id="sector_lbl">
 						<f:fields>
-							<RadioButtonGroup class="sapUiMediumMarginBottom" id="sector_grp">
+							<RadioButtonGroup id="sector_grp">
 								<buttons>
 									<RadioButton text="{i18n>craft}" selected="{/craft}" groupName="gr_sector"/>
 									<RadioButton text="{i18n>industry}" selected="{/industry}" groupName="gr_sector"/>
@@ -102,7 +102,7 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>language}" id="language_lbl">
 						<f:fields>
-							<RadioButtonGroup class="sapUiMediumMarginBottom" id="language_grp" columns="2">
+							<RadioButtonGroup id="language_grp" columns="2">
 								<buttons>
 									<RadioButton text="{i18n>italian}" selected="{/italian}" groupName="gr_language"/>
 									<RadioButton text="{i18n>german}" selected="{/german}" groupName="gr_language"/>

@@ -50,6 +50,7 @@ sap.ui.define([
 			}, function (button) {
 				this._completeTask(taskId, false);
 			}, this);
+
 		},
 
 		_completeTask: function (taskId, approvalStatus) {

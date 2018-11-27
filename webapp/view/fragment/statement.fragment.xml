@@ -35,9 +35,9 @@
 							<VBox>
 								<FormattedText htmlText="{i18n>claimText1}" width="100%"/>
 								<CheckBox text="{i18n>newFactory}" selected="{/newFactory}"/>
-								<CheckBox text="{i18n>increaseFactory}" selected="{/increaseFactory}" class="sapUiSmallMargin"/>
-								<CheckBox text="{i18n>newGood}" selected="{/newGood}" class="sapUiSmallMargin"/>
-								<CheckBox text="{i18n>newProcess}" selected="{/newProcess}" class="sapUiSmallMargin"/>
+								<CheckBox text="{i18n>increaseFactory}" selected="{/increaseFactory}"/>
+								<CheckBox text="{i18n>newGood}" selected="{/newGood}"/>
+								<CheckBox text="{i18n>newProcess}" selected="{/newProcess}"/>
 								<FormattedText htmlText="{i18n>claimText2}" width="100%"/>
 							</VBox>
 						</f:fields>

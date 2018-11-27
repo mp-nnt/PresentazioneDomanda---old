@@ -54,6 +54,18 @@ sap.ui.define([
 			});
 		},
 
+		onAfterRendering: function () {
+			this.oModel = this.getView().getModel();
+			if (this.oModel === undefined) {
+				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
+				var model = new JSONModel(this.mutableJSON);
+				this.getView().setModel(model);
+			} else if (jQuery.isEmptyObject(this.oModel.oData)) {
+				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
+				var model = new JSONModel(this.mutableJSON);
+				this.getView().setModel(model);
+			};
+		},
 		createObjectMarker: function (sId, oContext) {
 			var mSettings = null;
 
@@ -306,6 +318,60 @@ sap.ui.define([
 
 		onDialogCloseButton: function () {
 			this.oSettingsDialog.close();
+		},
+
+		dataModel: {
+			"surname": "",
+			"name": "",
+			"owner": "",
+			"piva": "",
+			"fiscalCode": "",
+			"craft": false,
+			"industry": false,
+			"trade": false,
+			"services": false,
+			"freelance": false,
+			"state": "",
+			"region": "",
+			"postCode": "",
+			"city": "",
+			"district": "",
+			"street": "",
+			"streetNumber": "",
+			"telephone": "",
+			"mail": "",
+			"pec": "",
+			"iban": "",
+			"italian": false,
+			"german": false,
+			"until9": false,
+			"between9and49": false,
+			"newFactory": false,
+			"increaseFactory": false,
+			"newGood": false,
+			"newProcess": false,
+			"score30_1": false,
+			"score30_2": false,
+			"score30_3": false,
+			"score30_4": false,
+			"score30_5": false,
+			"score15_1": false,
+			"score15_2": false,
+			"score15_3": false,
+			"score10_1": false,
+			"score10_2": false,
+			"score10_3": false,
+			"totalA": "",
+			"totalB": "",
+			"tableC_1": "",
+			"tableC_2": "",
+			"tableC_3": "",
+			"tableC_4": "",
+			"claimYes": false,
+			"claimNo": false,
+			"luogo": "",
+			"data": "",
+			"signature": ""
 		}
 
 	});
