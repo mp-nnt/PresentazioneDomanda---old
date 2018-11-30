@@ -61,9 +61,9 @@ sap.ui.define([
 				var model = new JSONModel(this.mutableJSON);
 				this.getView().setModel(model);
 			} else if (jQuery.isEmptyObject(this.oModel.oData)) {
-				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
-				var model = new JSONModel(this.mutableJSON);
-				this.getView().setModel(model);
+				//this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
+				//var model = new JSONModel(this.mutableJSON);
+				//this.getView().setModel(model);
 			};
 		},
 		createObjectMarker: function (sId, oContext) {
