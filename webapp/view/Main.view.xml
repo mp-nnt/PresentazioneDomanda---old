@@ -13,7 +13,7 @@
 										<l:content>
 											<Panel backgroundDesign="Transparent" id="panelL">
 												<layoutData>
-													<l:SplitterLayoutData id="dataL" resizable="false" size="20%"/>
+													<l:SplitterLayoutData id="dataL" resizable="false" size="15%"/>
 												</layoutData>
 											</Panel>
 										</l:content>
@@ -53,7 +53,7 @@
 										<l:content>
 											<Panel backgroundDesign="Transparent" id="panelR">
 												<layoutData>
-													<l:SplitterLayoutData id="dataR" resizable="false" size="20%"/>
+													<l:SplitterLayoutData id="dataR" resizable="false" size="15%"/>
 												</layoutData>
 											</Panel>
 										</l:content>

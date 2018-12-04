@@ -1,4 +1,4 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core">
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
 	<f:Form editable="true" id="investmentForm" width="100%">
 		<f:layout>
 			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
@@ -7,18 +7,110 @@
 		<f:formContainers>
 			<f:FormContainer title="{i18n>tableA}">
 				<f:formElements>
+					<f:FormElement>
+						<f:fields>
+							<t:Table selectionMode="None" rows="{/tableA}" visibleRowCount="5">
+								<t:columns>
+									<t:Column sortProperty="tipologia" filterProperty="tipologia">
+										<t:multiLabels>
+											<Label text="Tipologia degli investimenti e luogo" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{tipologia}"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
+										<t:multiLabels>
+											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
+											<Label text="Dal" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{inizio}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="fine" filterProperty="fine">
+										<t:multiLabels>
+											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
+											<Label text="Fine" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{fine}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">
+										<t:multiLabels>
+											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{imponibileEuro}"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</f:fields>
+					</f:FormElement>
 					<f:FormElement label="{i18n>totalA}">
 						<f:fields>
-							<Input width="50%" id="totalA_inp" value="{/totalA}"/>
+							<Text text="{/totalA}"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="{i18n>tableB}">
 				<f:formElements>
+					<f:FormElement>
+						<f:fields>
+							<t:Table selectionMode="None" rows="{/tableB}" visibleRowCount="9">
+								<t:columns>
+									<t:Column sortProperty="tipologia" filterProperty="tipologia">
+										<t:multiLabels>
+											<Label text="Tipologia degli investimenti" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Text text="{tipologia}"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="luogo" filterProperty="luogo">
+										<t:multiLabels>
+											<Label text="Luogo" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{luogo}"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
+										<t:multiLabels>
+											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
+											<Label text="Dal" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{inizio}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="fine" filterProperty="fine">
+										<t:multiLabels>
+											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
+											<Label text="Fine" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{fine}" wrapping="false"/>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">
+										<t:multiLabels>
+											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{imponibileEuro}"/>
+										</t:template>
+									</t:Column>
+								</t:columns>
+							</t:Table>
+						</f:fields>
+					</f:FormElement>
 					<f:FormElement label="{i18n>totalB}">
 						<f:fields>
-							<Input width="50%" id="totalB_inp" value="{/totalB}"/>
+							<Text text="{/totalB}"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -62,7 +154,7 @@
 						<f:fields>
 							<VBox>
 								<FormattedText htmlText="{i18n>claimText3}" width="100%"/>
-								<RadioButtonGroup class="sapUiMediumMarginBottom" id="grp">
+								<RadioButtonGroup class="sapUiMediumMarginBottom" id="grp" columns="2">
 									<buttons>
 										<RadioButton text="{i18n>yes}" selected="{/claimYes}" groupName="gr"/>
 										<RadioButton text="{i18n>no}" selected="{/claimNo}" groupName="gr"/>
