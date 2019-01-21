@@ -25,7 +25,7 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}" wrapping="false"/>
+											<Input value="{inizio}" />
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -34,7 +34,7 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}" wrapping="false"/>
+											<Input value="{fine}" />
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">
@@ -84,7 +84,7 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}" wrapping="false"/>
+											<Input value="{inizio}" />
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -93,7 +93,7 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}" wrapping="false"/>
+											<Input value="{fine}" />
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">

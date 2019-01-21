@@ -64,7 +64,7 @@ sap.ui.define([
 				//this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
 				//var model = new JSONModel(this.mutableJSON);
 				//this.getView().setModel(model);
-			};
+			}
 		},
 		createObjectMarker: function (sId, oContext) {
 			var mSettings = null;

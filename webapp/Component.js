@@ -54,8 +54,8 @@ sap.ui.define([
 							this._completeTask(taskId, false);
 						}, this);
 			*/
-		},
-		/*
+		}
+		/*,
 				_completeTask: function (taskId, approvalStatus) {
 					var token = this._fetchToken();
 					var oModel = this.getModel();
