@@ -1,4 +1,6 @@
 {
+	"stamp_duty_id": "",
+	"stamp_duty_date": "",
 	"surname": "Rossi",
 	"surname_vrf": true,
 	"name": "Mario",
@@ -16,7 +18,7 @@
 	"freelance": false,
 	"state": "Italia",
 	"state_vrf": true,
-	"region": "Trentino",
+	"region": "Bolzano",
 	"postCode_vrf": true,
 	"postcode": "",
 	"city": "Bolzano",

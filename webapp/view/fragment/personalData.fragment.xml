@@ -5,6 +5,20 @@
 				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
 		</f:layout>
 		<f:formContainers>
+			<f:FormContainer title="{i18n>stamp_duty}">
+				<f:formElements>
+					<f:FormElement label="{i18n>stamp_duty_id}" id="stamp_duty_id_lbl">
+						<f:fields>
+							<Input width="50%" id="stamp_duty_id_inp" value="{/stamp_duty_id}"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>stamp_duty_date}" id="stamp_duty_date_lbl">
+						<f:fields>
+							<Input width="50%" id="stamp_duty_date_inp" value="{/stamp_duty_date}"/>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
 			<f:FormContainer title="{i18n>requester}" id="requester">
 				<f:formElements>
 					<f:FormElement label="{i18n>surname}" id="surname_lbl">

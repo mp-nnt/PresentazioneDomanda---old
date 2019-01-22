@@ -49,10 +49,10 @@
 					<f:FormElement>
 						<f:fields>
 							<VBox>
-								<CheckBox text="{i18n>claim3_1}" selected="{/claim3_1}"/>
-								<CheckBox text="{i18n>claim3_2}" selected="{/claim3_2}"/>
-								<CheckBox text="{i18n>claim3_3}" selected="{/claim3_3}"/>
-								<t:Table rows="{/claim3_tbl}" selectionMode="None" visibleRowCount="5">
+								<CheckBox text="{i18n>claim3_1}" selected="{/claim3_1}" wrapping="true"/>
+								<CheckBox text="{i18n>claim3_2}" selected="{/claim3_2}" wrapping="true"/>
+								<CheckBox text="{i18n>claim3_3}" selected="{/claim3_3}" wrapping="true"/>
+								<t:Table rows="{/claim3_tbl}" selectionMode="None" visibleRowCount="4">
 									<t:columns>
 										<t:Column>
 											<Label text="{i18n>claim3_tipo}"/>
@@ -91,6 +91,14 @@
 							<VBox>
 								<CheckBox text="{i18n>score15_1}" selected="{/score15_1}" wrapping="true"/>
 								<CheckBox text="{i18n>score15_2}" selected="{/score15_2}" wrapping="true"/>
+								<HBox>
+									<VBox width='8%'/>
+									<VBox>
+										<CheckBox text="{i18n>score15_2_1}" selected="{/score15_2_1}" wrapping="true"/>
+										<CheckBox text="{i18n>score15_2_2}" selected="{/score15_2_1}" wrapping="true"/>
+										<CheckBox text="{i18n>score15_2_3}" selected="{/score15_2_1}" wrapping="true"/>
+									</VBox>
+								</HBox>
 								<CheckBox text="{i18n>score15_3}" selected="{/score15_3}" wrapping="true"/>
 							</VBox>
 						</f:fields>
@@ -100,6 +108,18 @@
 							<VBox>
 								<CheckBox text="{i18n>score10_1}" selected="{/score10_1}" wrapping="true"/>
 								<CheckBox text="{i18n>score10_2}" selected="{/score10_2}" wrapping="true"/>
+								<HBox>
+									<VBox width='8%'/>
+									<VBox>
+										<CheckBox text="{i18n>score10_2_1}" selected="{/score10_2_1}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_2}" selected="{/score10_2_2}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_3}" selected="{/score10_2_3}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_4}" selected="{/score10_2_4}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_5}" selected="{/score10_2_5}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_6}" selected="{/score10_2_6}" wrapping="true"/>
+										<CheckBox text="{i18n>score10_2_7}" selected="{/score10_2_7}" wrapping="true"/>
+									</VBox>
+								</HBox>
 								<CheckBox text="{i18n>score10_3}" selected="{/score10_3}" wrapping="true"/>
 							</VBox>
 						</f:fields>
