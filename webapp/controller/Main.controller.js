@@ -56,16 +56,143 @@ sap.ui.define([
 
 		onAfterRendering: function () {
 			this.oModel = this.getView().getModel();
+			/*
 			if (this.oModel === undefined) {
 				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
 				var model = new JSONModel(this.mutableJSON);
 				this.getView().setModel(model);
+				//var sPath = "model/emptyModel.json";
+				//this.getView().setModel(new sap.ui.model.json.JSONModel(sPath));
 			} else if (jQuery.isEmptyObject(this.oModel.oData)) {
 				//this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
 				//var model = new JSONModel(this.mutableJSON);
 				//this.getView().setModel(model);
 			}
+			*/
 		},
+
+		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
+		onSave: function () {
+
+			// salvo task senza completare
+			this.completeTask(false);
+
+		},
+
+		onConfirm: function () {
+
+			// completo task
+			this.completeTask(true);
+			// chiamo oData per creazione richiesta CRM
+			this.formModel = new sap.ui.model.json.JSONModel({
+				"Guid": "",
+				"ObjectId": "",
+				"ProcessType": "GAP",
+				"Description": "Test SCP"
+			});
+			var newRow = this.formModel.getData();
+			var oModel = this.getView().getModel("oData");
+			oModel.create('/nuovaRichiestaSet', newRow, {
+				"success": function () {
+					sap.m.MessageToast.show("yeeeeeh, aggiunto!");
+					this.setGridVisible("nuovoDipendente", false);
+				}.bind(this),
+				"error": function () {
+					sap.m.MessageToast.show("schifo!");
+				}
+			});
+
+		},
+
+		completeTask: function (approvalStatus) {
+
+			var taskId = this.getOwnerComponent().taskId;
+			var token = this._fetchToken();
+			var oModel = this.getView().getModel();
+			oModel.setProperty("/confirm", approvalStatus);
+
+			if (taskId === null) {
+
+				oModel.setProperty("/Azienda", "Azienda");
+
+				// creo il task id
+				$.ajax({
+					url: "/bpmworkflowruntime/rest/v1/workflow-instances",
+					method: "POST",
+					contentType: "application/json",
+					async: false,
+					data: JSON.stringify({
+						definitionId: "bando2018",
+						context: oModel.getData()
+					}),
+					headers: {
+						"X-CSRF-Token": token
+					},
+					success: function (result, xhr, data) {
+						this.getOwnerComponent().taskId = result.id;
+						this._completeTask(result.id, oModel, token);
+					}.bind(this),
+					error: function (oError) {
+						console.log("error");
+					}
+				});
+
+			} else {
+				this._completeTask(taskId, oModel, token);
+			}
+
+		},
+
+		_getTaskId: function (instanceId) {
+
+		},
+
+		_completeTask: function (taskId, oModel, token) {
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/task-instances/" + taskId,
+				method: "PATCH",
+				contentType: "application/json",
+				async: false,
+				data: JSON.stringify({
+					status: "COMPLETED",
+					context: oModel.getData()
+				}),
+				headers: {
+					"X-CSRF-Token": token
+				},
+				success: function (result, xhr, data) {
+					console.log(result);
+					console.log(data);
+				}.bind(this),
+				error: function (oError) {
+					console.log(oError);
+				}
+			});
+		},
+
+		_fetchToken: function () {
+			var token;
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/xsrf-token",
+				method: "GET",
+				async: false,
+				headers: {
+					"X-CSRF-Token": "Fetch"
+				},
+				success: function (result, xhr, data) {
+					token = data.getResponseHeader("X-CSRF-Token");
+				}
+			});
+			return token;
+		},
+
+		getTaskId: function () {
+			debugger;
+			return jQuery.sap.getUriParameters().get("taskid");
+		},
+
+		// ---------------------------------------------------------------------------------- End Azioni Toolbar
+
 		createObjectMarker: function (sId, oContext) {
 			var mSettings = null;
 
@@ -89,6 +216,8 @@ sap.ui.define([
 				return sValue;
 			}
 		},
+
+		// ---------------------------------------------------------------------------------- Start File Uploader
 
 		onChange: function (oEvent) {
 			var oUploadCollection = oEvent.getSource();
@@ -318,61 +447,9 @@ sap.ui.define([
 
 		onDialogCloseButton: function () {
 			this.oSettingsDialog.close();
-		},
-
-		dataModel: {
-			"surname": "",
-			"name": "",
-			"owner": "",
-			"piva": "",
-			"fiscalCode": "",
-			"craft": false,
-			"industry": false,
-			"trade": false,
-			"services": false,
-			"freelance": false,
-			"state": "",
-			"region": "",
-			"postCode": "",
-			"city": "",
-			"district": "",
-			"street": "",
-			"streetNumber": "",
-			"telephone": "",
-			"mail": "",
-			"pec": "",
-			"iban": "",
-			"italian": false,
-			"german": false,
-			"until9": false,
-			"between9and49": false,
-			"newFactory": false,
-			"increaseFactory": false,
-			"newGood": false,
-			"newProcess": false,
-			"score30_1": false,
-			"score30_2": false,
-			"score30_3": false,
-			"score30_4": false,
-			"score30_5": false,
-			"score15_1": false,
-			"score15_2": false,
-			"score15_3": false,
-			"score10_1": false,
-			"score10_2": false,
-			"score10_3": false,
-			"totalA": "",
-			"totalB": "",
-			"tableC_1": "",
-			"tableC_2": "",
-			"tableC_3": "",
-			"tableC_4": "",
-			"claimYes": false,
-			"claimNo": false,
-			"luogo": "",
-			"data": "",
-			"signature": ""
 		}
+
+		// ---------------------------------------------------------------------------------- End File Uploader
 
 	});
 });

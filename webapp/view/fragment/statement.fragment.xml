@@ -92,11 +92,11 @@
 								<CheckBox text="{i18n>score15_1}" selected="{/score15_1}" wrapping="true"/>
 								<CheckBox text="{i18n>score15_2}" selected="{/score15_2}" wrapping="true"/>
 								<HBox>
-									<VBox width='8%'/>
+									<VBox width='10%'/>
 									<VBox>
 										<CheckBox text="{i18n>score15_2_1}" selected="{/score15_2_1}" wrapping="true"/>
-										<CheckBox text="{i18n>score15_2_2}" selected="{/score15_2_1}" wrapping="true"/>
-										<CheckBox text="{i18n>score15_2_3}" selected="{/score15_2_1}" wrapping="true"/>
+										<CheckBox text="{i18n>score15_2_2}" selected="{/score15_2_2}" wrapping="true"/>
+										<CheckBox text="{i18n>score15_2_3}" selected="{/score15_2_3}" wrapping="true"/>
 									</VBox>
 								</HBox>
 								<CheckBox text="{i18n>score15_3}" selected="{/score15_3}" wrapping="true"/>
@@ -109,7 +109,7 @@
 								<CheckBox text="{i18n>score10_1}" selected="{/score10_1}" wrapping="true"/>
 								<CheckBox text="{i18n>score10_2}" selected="{/score10_2}" wrapping="true"/>
 								<HBox>
-									<VBox width='8%'/>
+									<VBox width='10%'/>
 									<VBox>
 										<CheckBox text="{i18n>score10_2_1}" selected="{/score10_2_1}" wrapping="true"/>
 										<CheckBox text="{i18n>score10_2_2}" selected="{/score10_2_2}" wrapping="true"/>

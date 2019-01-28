@@ -63,6 +63,13 @@
 						</l:rootPaneContainer>
 					</l:ResponsiveSplitter>
 				</content>
+				<footer>
+					<Toolbar>
+						<ToolbarSpacer/>
+						<Button text="Salva Bozza" type="Default" icon="sap-icon://save" press="onSave"/>
+						<Button text="Conferma" type="Accept" icon="sap-icon://approvals" press="onConfirm"/>
+					</Toolbar>
+				</footer>
 			</Page>
 		</pages>
 	</App>
