@@ -57,22 +57,16 @@ sap.ui.define([
 		onAfterRendering: function () {
 			this.oModel = this.getView().getModel();
 			/*
-			if (this.oModel === undefined) {
 				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
 				var model = new JSONModel(this.mutableJSON);
 				this.getView().setModel(model);
-				//var sPath = "model/emptyModel.json";
-				//this.getView().setModel(new sap.ui.model.json.JSONModel(sPath));
-			} else if (jQuery.isEmptyObject(this.oModel.oData)) {
-				//this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
-				//var model = new JSONModel(this.mutableJSON);
-				//this.getView().setModel(model);
-			}
 			*/
 		},
 
 		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
 		onSave: function () {
+
+			this.getView().setBusy(true);
 
 			// salvo task senza completare
 			this.completeTask(false);
@@ -81,24 +75,25 @@ sap.ui.define([
 
 		onConfirm: function () {
 
+			this.getView().setBusy(true);
+
 			// completo task
 			this.completeTask(true);
 			// chiamo oData per creazione richiesta CRM
-			this.formModel = new sap.ui.model.json.JSONModel({
+			this.oDataModel = new sap.ui.model.json.JSONModel({
 				"Guid": "",
 				"ObjectId": "",
 				"ProcessType": "GAP",
 				"Description": "Test SCP"
 			});
-			var newRow = this.formModel.getData();
+			var newRequest = this.oDataModel.getData();
 			var oModel = this.getView().getModel("oData");
-			oModel.create('/nuovaRichiestaSet', newRow, {
+			oModel.create("/nuovaRichiestaSet", newRequest, {
 				"success": function () {
-					sap.m.MessageToast.show("yeeeeeh, aggiunto!");
-					this.setGridVisible("nuovoDipendente", false);
-				}.bind(this),
+					sap.m.MessageToast.show("Richiesta creata");
+				},
 				"error": function () {
-					sap.m.MessageToast.show("schifo!");
+					sap.m.MessageToast.show("Errore oData");
 				}
 			});
 
@@ -113,7 +108,7 @@ sap.ui.define([
 
 			if (taskId === null) {
 
-				oModel.setProperty("/Azienda", "Azienda");
+				oModel.setProperty("/Azienda", "Azienda"); // Andrà sostituito con gruppo Azienda
 
 				// creo il task id
 				$.ajax({
@@ -129,21 +124,13 @@ sap.ui.define([
 						"X-CSRF-Token": token
 					},
 					success: function (result, xhr, data) {
-						this.getOwnerComponent().taskId = result.id;
-						this._completeTask(result.id, oModel, token);
-					}.bind(this),
-					error: function (oError) {
-						console.log("error");
-					}
+						this._taskIdfromInstance(result.id, token);
+					}.bind(this)
 				});
 
 			} else {
 				this._completeTask(taskId, oModel, token);
 			}
-
-		},
-
-		_getTaskId: function (instanceId) {
 
 		},
 
@@ -161,8 +148,28 @@ sap.ui.define([
 					"X-CSRF-Token": token
 				},
 				success: function (result, xhr, data) {
-					console.log(result);
-					console.log(data);
+					sap.m.MessageToast.show("Task completed");
+					this.getView().setBusy(false);
+				}.bind(this),
+				error: function (oError) {
+					console.log(oError);
+				}
+			});
+		},
+
+		_taskIdfromInstance: function (instanceId, token) {
+
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/task-instances?workflowInstanceId=" + instanceId,
+				method: "GET",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				success: function (result, xhr, data) {
+					var oModel = this.getView().getModel();
+					this.getOwnerComponent().taskId = result[0].id;
+					this._completeTask(result[0].id, oModel, token);
 				}.bind(this),
 				error: function (oError) {
 					console.log(oError);
@@ -187,7 +194,6 @@ sap.ui.define([
 		},
 
 		getTaskId: function () {
-			debugger;
 			return jQuery.sap.getUriParameters().get("taskid");
 		},
 
