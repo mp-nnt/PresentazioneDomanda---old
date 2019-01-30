@@ -1,14 +1,50 @@
-<edmx:Edmx xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
-	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData" Version="1.0">
+<?xml version="1.0" encoding="utf-8"?>
+<edmx:Edmx Version="1.0" xmlns:edmx="http://schemas.microsoft.com/ado/2007/06/edmx"
+	xmlns:m="http://schemas.microsoft.com/ado/2007/08/dataservices/metadata" xmlns:sap="http://www.sap.com/Protocols/SAPData">
 	<edmx:DataServices m:DataServiceVersion="2.0">
-		<Schema xmlns="http://schemas.microsoft.com/ado/2008/09/edm" Namespace="ZPAB_GRANTOR_SRV" xml:lang="it" sap:schema-version="1">
+		<Schema Namespace="ZPAB_GRANTOR_SRV" xml:lang="it" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
 			<EntityType Name="nuovaRichiesta" sap:content-version="1">
-				<Key><PropertyRef Name="Guid"/><PropertyRef Name="ObjectId"/></Key><Property Name="Guid" Type="Edm.Guid" Nullable="false" sap:unicode="false" sap:label="GUID 16" sap:creatable="false" sap:updatable="false"
-					sap:sortable="false" sap:filterable="false"/><Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="ID" sap:creatable="false"
+				<Key><PropertyRef Name="Guid"/><PropertyRef Name="ObjectId"/></Key><Property Name="Guid" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="GUID 16" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PostingDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Data di reg."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ObjectId" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="ID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Piva" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Partita Iva" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Addetti9" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Fino a 9 addetti" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Tipo transazione"
-					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Descrizione"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Addetti49" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Fino a 49 addetti" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Descrizione"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SettoreA" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Settore Artigiano" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SettoreI" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Settore Industria" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SettoreC" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Settore Commercio" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SettoreS" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Settore Servizi" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="SettoreL" Type="Edm.Boolean" Nullable="false" sap:unicode="false" sap:label="Settore Libero Prof." sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000007" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Inst. nuovo stabilim"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000008" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Ampl. Stabilimento"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000009" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Diversificare produz"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00000a" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Trasf. Stab."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00000g" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Non avere ric. agev"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00000z" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Numero identificativ"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000012" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="No. ricevuto agevol."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000013" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="No. Sgravi fiscali"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000014" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Usufruire sgravi f."
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="posizioniRichiesta" sap:content-version="1">
+				<Key><PropertyRef Name="Guid"/></Key><Property Name="Guid" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="Oggetto GUID" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Description" Type="Edm.String" Nullable="false" MaxLength="40" sap:unicode="false" sap:label="Denominazione"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DataInizio" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Data Inizio"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="DataFine" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Data Fine" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Importo" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Importo richiesto"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000002" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Luogo" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ZzinvType" Type="Edm.String" Nullable="false" MaxLength="50" sap:unicode="false" sap:label="Tip. Investimento"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00000e" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Tipo Investimento"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000016" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Sgravi Fiscali"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000017" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Importo Sgravi fisc."
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityContainer Name="ZPAB_GRANTOR_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="nuovaRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.nuovaRichiesta" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/></EntityContainer><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="self" href="./sap/ZPAB_GRANTOR_SRV/$metadata"/><atom:link xmlns:atom="http://www.w3.org/2005/Atom" rel="latest-version" href="./sap/ZPAB_GRANTOR_SRV/$metadata"/></Schema>
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="posizioniRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.posizioniRichiesta" sap:creatable="false" sap:updatable="false"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/></EntityContainer><atom:link rel="self"
+				href="https://webidecp-e5379c8a0.dispatcher.eu2.hana.ondemand.com/destinations/CRM/sap/opu/odata/sap/ZPAB_GRANTOR_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
+				href="https://webidecp-e5379c8a0.dispatcher.eu2.hana.ondemand.com/destinations/CRM/sap/opu/odata/sap/ZPAB_GRANTOR_SRV/$metadata"
+				xmlns:atom="http://www.w3.org/2005/Atom"/></Schema>
 	</edmx:DataServices>
 </edmx:Edmx>

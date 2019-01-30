@@ -9,12 +9,14 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>stamp_duty_id}" id="stamp_duty_id_lbl">
 						<f:fields>
-							<Input width="50%" id="stamp_duty_id_inp" value="{/stamp_duty_id}"/>
+							<Input width="50%" id="stamp_duty_id_inp" value="{/stamp_duty_id}" placeholder="{i18n>stamp_duty_claim}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>stamp_duty_date}" id="stamp_duty_date_lbl">
 						<f:fields>
-							<Input width="50%" id="stamp_duty_date_inp" value="{/stamp_duty_date}"/>
+							<DatePicker id="PlDate" width="50%"
+								value="{path: '/stamp_duty_date', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}"
+								placeholder="{i18n>ph_stamp_duty_date}"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>

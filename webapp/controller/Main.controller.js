@@ -75,12 +75,13 @@ sap.ui.define([
 
 		onConfirm: function () {
 
+			this.getView().setBusyIndicatorDelay(0);
 			this.getView().setBusy(true);
 
 			// completo task
 			this.completeTask(true);
 			// chiamo oData per creazione richiesta CRM
-			this.oDataModel = new sap.ui.model.json.JSONModel({
+			/*this.oDataModel = new sap.ui.model.json.JSONModel({
 				"Guid": "",
 				"ObjectId": "",
 				"ProcessType": "GAP",
@@ -95,7 +96,8 @@ sap.ui.define([
 				"error": function () {
 					sap.m.MessageToast.show("Errore oData");
 				}
-			});
+			});*/
+			this._requestCreation();
 
 		},
 
@@ -151,9 +153,7 @@ sap.ui.define([
 					sap.m.MessageToast.show("Task completed");
 					this.getView().setBusy(false);
 				}.bind(this),
-				error: function (oError) {
-					console.log(oError);
-				}
+				error: function (oError) {}
 			});
 		},
 
@@ -171,9 +171,7 @@ sap.ui.define([
 					this.getOwnerComponent().taskId = result[0].id;
 					this._completeTask(result[0].id, oModel, token);
 				}.bind(this),
-				error: function (oError) {
-					console.log(oError);
-				}
+				error: function (oError) {}
 			});
 		},
 
@@ -195,6 +193,148 @@ sap.ui.define([
 
 		getTaskId: function () {
 			return jQuery.sap.getUriParameters().get("taskid");
+		},
+
+		_requestCreation: function () {
+
+			var oModel = this.getView().getModel("oData");
+			oModel.setUseBatch(true);
+			var changeSetId = "abc";
+			oModel.setDeferredGroups([changeSetId]);
+			var mParameters = {
+				"groupId": changeSetId,
+				"changeSetId": changeSetId
+			};
+
+			var batchSuccess = function (oData) {
+				this.getView().setBusy(false);
+				sap.m.MessageToast.show("Richiesta creata");
+			}.bind(this);
+
+			var batchError = function (err) {
+				this.getView().setBusy(false);
+				sap.m.MessageBox.error(err.message);
+			}.bind(this);
+
+			this._odataHeaderCreate(mParameters);
+			this._odataItemsCreate(mParameters);
+			oModel.submitChanges({
+				"groupId": changeSetId,
+				//"changeSetId": changeSetId,
+				"success": batchSuccess,
+				"error": batchError
+			});
+		},
+
+		_odataHeaderCreate: function (param) {
+
+			var oModel = this.getView().getModel();
+			var oDataModel = this.getView().getModel("oData");
+			var entity = {};
+			entity["Piva"] = oModel.getProperty("/piva");
+			entity["Addetti9"] = oModel.getProperty("/until9");
+			entity["ProcessType"] = "GAP";
+			entity["Addetti49"] = oModel.getProperty("/between9and49");
+			entity["Description"] = "Test SCP - oData";
+			entity["SettoreA"] = oModel.getProperty("/craft");
+			entity["SettoreI"] = oModel.getProperty("/industry");
+			entity["SettoreC"] = oModel.getProperty("/trade");
+			entity["SettoreS"] = oModel.getProperty("/services");
+			entity["SettoreL"] = oModel.getProperty("/freelance");
+			if (oModel.getProperty("/newFactory")) {
+				entity["Zzfld000007"] = "X";
+			}
+			if (oModel.getProperty("/increaseFactory")) {
+				entity["Zzfld000008"] = "X";
+			}
+			if (oModel.getProperty("/newGood")) {
+				entity["Zzfld000009"] = "X";
+			}
+			if (oModel.getProperty("/newProcess")) {
+				entity["Zzfld00000a"] = "X";
+			}
+			if (oModel.getProperty("/claim3_1")) {
+				entity["Zzfld00000g"] = "X";
+			}
+			entity["Zzfld00000z"] = oModel.getProperty("/stamp_duty_id");
+			if (oModel.getProperty("/stamp_duty_date") !== "") {
+				//	entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date"); <--- momentaneamente tolto su SEGW
+			}
+			if (oModel.getProperty("/claim3_1")) {
+				entity["Zzfld000012"] = "X";
+			}
+			if (oModel.getProperty("/claim3_2")) {
+				entity["Zzfld000013"] = "X";
+			}
+			if (oModel.getProperty("/claim3_3")) {
+				entity["Zzfld000014"] = "X";
+			}
+
+			oDataModel.create("/nuovaRichiestaSet", entity, param);
+
+		},
+
+		_odataItemsCreate: function (param) {
+			var oModel = this.getView().getModel();
+			var oDataModel = this.getView().getModel("oData");
+			var tableA = oModel.getProperty("/tableA");
+			var entity;
+			//if (!(tableA && tableA.length > 0)) {} else {
+			for (var i in tableA) {
+				if (tableA[i].importoEuro !== "") {
+
+					entity = {};
+					entity["Description"] = tableA[i].tipologia;
+					entity["DataInizio"] = tableA[i].inizio;
+					entity["DataFine"] = tableA[i].fine;
+					entity["Importo"] = tableA[i].importoEuro;
+					entity["Zzfld00000e"] = "A"; //tipo investiemnto (A, B, S)
+
+					oDataModel.create("/posizioniRichiestaSet", entity, param);
+				}
+			}
+			//}
+
+			var tableB = oModel.getProperty("/tableB");
+
+			//if (!(tableA && tableA.length > 0)) {} else {
+			for (var i in tableB) {
+
+				if (tableB[i].importoEuro !== "") {
+					entity = {};
+					entity["Description"] = tableB[i].tipologia;
+					entity["DataInizio"] = tableB[i].inizio;
+					entity["DataFine"] = tableB[i].fine;
+					entity["Importo"] = tableB[i].importoEuro;
+					entity["Zzfld000002"] = tableB[i].luogo; //luogo
+					//entity["ZzinvType"] =  ; //tipo inv
+					entity["Zzfld00000e"] = "B"; //tipo investiemnto (A, B, S)
+
+					oDataModel.create("/posizioniRichiestaSet", entity, param);
+				}
+			}
+			//}
+
+			//
+			var tableS = oModel.getProperty("/claim3_tbl");
+
+			//if (!(tableA && tableA.length > 0)) {} else {
+			for (var i in tableS) {
+
+				if (tableS[i].importoEuro !== "") {
+					entity = {};
+					entity["Description"] = tableS[i].tipologia;
+					entity["Importo"] = tableS[i].importoEuro;
+					entity["Zzfld00000e"] = "S"; //tipo investiemnto (A, B, S)
+					//entity["ZzinvType"] =  ; //tipo inv
+					//entity["Zzfld000016"] = tableA[i]. ; //sgravi
+					//entity["Zzfld000017"] = tableA[i]. ; //importo sgravi
+
+					oDataModel.create("/posizioniRichiestaSet", entity, param);
+				}
+			}
+			//}
+
 		},
 
 		// ---------------------------------------------------------------------------------- End Azioni Toolbar

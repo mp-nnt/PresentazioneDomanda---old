@@ -25,7 +25,7 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}" />
+											<Input value="{inizio}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -34,26 +34,26 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}" />
+											<Input value="{fine}"/>
 										</t:template>
 									</t:Column>
-									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">
+									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
 										<t:multiLabels>
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{imponibileEuro}"/>
+											<Input value="{importoEuro}"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
 							</t:Table>
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="{i18n>totalA}">
+					<!--f:FormElement label="{i18n>totalA}">
 						<f:fields>
 							<Text text="{/totalA}"/>
 						</f:fields>
-					</f:FormElement>
+					</f:FormElement-->
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="{i18n>tableB}">
@@ -84,7 +84,7 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}" />
+											<Input value="{inizio}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -93,26 +93,26 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}" />
+											<Input value="{fine}"/>
 										</t:template>
 									</t:Column>
-									<t:Column sortProperty="imponibileEuro" filterProperty="imponibileEuro">
+									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
 										<t:multiLabels>
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{imponibileEuro}"/>
+											<Input value="{importoEuro}"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
 							</t:Table>
 						</f:fields>
 					</f:FormElement>
-					<f:FormElement label="{i18n>totalB}">
+					<!--f:FormElement label="{i18n>totalB}">
 						<f:fields>
 							<Text text="{/totalB}"/>
 						</f:fields>
-					</f:FormElement>
+					</f:FormElement-->
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="{i18n>tableC}">
