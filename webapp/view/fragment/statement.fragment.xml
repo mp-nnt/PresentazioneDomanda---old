@@ -63,7 +63,7 @@
 										<t:Column>
 											<Label text="{i18n>claim3_importo}"/>
 											<t:template>
-												<Input value="{importoEuro}"/>
+												<Input value="{importoEuro}" type="Number"/>
 											</t:template>
 										</t:Column>
 									</t:columns>

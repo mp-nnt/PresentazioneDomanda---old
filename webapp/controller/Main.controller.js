@@ -78,25 +78,8 @@ sap.ui.define([
 			this.getView().setBusyIndicatorDelay(0);
 			this.getView().setBusy(true);
 
-			// completo task
+			// completo task e creo la richiesta
 			this.completeTask(true);
-			// chiamo oData per creazione richiesta CRM
-			/*this.oDataModel = new sap.ui.model.json.JSONModel({
-				"Guid": "",
-				"ObjectId": "",
-				"ProcessType": "GAP",
-				"Description": "Test SCP"
-			});
-			var newRequest = this.oDataModel.getData();
-			var oModel = this.getView().getModel("oData");
-			oModel.create("/nuovaRichiestaSet", newRequest, {
-				"success": function () {
-					sap.m.MessageToast.show("Richiesta creata");
-				},
-				"error": function () {
-					sap.m.MessageToast.show("Errore oData");
-				}
-			});*/
 			this._requestCreation();
 
 		},
@@ -104,31 +87,39 @@ sap.ui.define([
 		completeTask: function (approvalStatus) {
 
 			var taskId = this.getOwnerComponent().taskId;
+			var instanceId = this.getOwnerComponent().instanceId;
 			var token = this._fetchToken();
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/confirm", approvalStatus);
 
 			if (taskId === null) {
 
-				oModel.setProperty("/Azienda", "Azienda"); // Andrà sostituito con gruppo Azienda
+				if (instanceId === undefined) {
 
-				// creo il task id
-				$.ajax({
-					url: "/bpmworkflowruntime/rest/v1/workflow-instances",
-					method: "POST",
-					contentType: "application/json",
-					async: false,
-					data: JSON.stringify({
-						definitionId: "bando2018",
-						context: oModel.getData()
-					}),
-					headers: {
-						"X-CSRF-Token": token
-					},
-					success: function (result, xhr, data) {
-						this._taskIdfromInstance(result.id, token);
-					}.bind(this)
-				});
+					oModel.setProperty("/Azienda", "Azienda"); // Andrà sostituito con gruppo Azienda
+
+					// creo il task id
+					$.ajax({
+						url: "/bpmworkflowruntime/rest/v1/workflow-instances",
+						method: "POST",
+						contentType: "application/json",
+						async: false,
+						data: JSON.stringify({
+							definitionId: "bando",
+							context: oModel.getData()
+						}),
+						headers: {
+							"X-CSRF-Token": token
+						},
+						success: function (result, xhr, data) {
+							this.getOwnerComponent().instanceId = result.id;
+							this._taskIdfromInstance(result.id, token, true);
+						}.bind(this)
+					});
+
+				} else {
+					this._taskIdfromInstance(instanceId, token, true);
+				}
 
 			} else {
 				this._completeTask(taskId, oModel, token);
@@ -137,27 +128,34 @@ sap.ui.define([
 		},
 
 		_completeTask: function (taskId, oModel, token) {
+
+			var dataContext;
+
+			// se chiamo la Patch devo completare il task!
+			dataContext = JSON.stringify({
+				status: "COMPLETED",
+				context: oModel.getData()
+			});
+
 			$.ajax({
 				url: "/bpmworkflowruntime/rest/v1/task-instances/" + taskId,
 				method: "PATCH",
 				contentType: "application/json",
 				async: false,
-				data: JSON.stringify({
-					status: "COMPLETED",
-					context: oModel.getData()
-				}),
+				data: dataContext,
 				headers: {
 					"X-CSRF-Token": token
 				},
 				success: function (result, xhr, data) {
-					sap.m.MessageToast.show("Task completed");
+					sap.m.MessageToast.show("Task Saved");
 					this.getView().setBusy(false);
+					this.getOwnerComponent().taskId = null;
 				}.bind(this),
 				error: function (oError) {}
 			});
 		},
 
-		_taskIdfromInstance: function (instanceId, token) {
+		_taskIdfromInstance: function (instanceId, token, toComplete) {
 
 			$.ajax({
 				url: "/bpmworkflowruntime/rest/v1/task-instances?workflowInstanceId=" + instanceId,
@@ -168,8 +166,10 @@ sap.ui.define([
 				},
 				success: function (result, xhr, data) {
 					var oModel = this.getView().getModel();
-					this.getOwnerComponent().taskId = result[0].id;
-					this._completeTask(result[0].id, oModel, token);
+					this.getOwnerComponent().taskId = result[result.length - 1].id;
+					if (toComplete) {
+						this._completeTask(this.getOwnerComponent().taskId, oModel, token);
+					}
 				}.bind(this),
 				error: function (oError) {}
 			});
@@ -193,6 +193,23 @@ sap.ui.define([
 
 		getTaskId: function () {
 			return jQuery.sap.getUriParameters().get("taskid");
+		},
+
+		getInstanceId: function (taskId) {
+
+			var token = this._fetchToken();
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/task-instances/" + taskId,
+				method: "GET",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				success: function (result, xhr, data) {
+					return result[0].workflowInstanceId;
+				}
+			});
+
 		},
 
 		_requestCreation: function () {
@@ -270,6 +287,59 @@ sap.ui.define([
 				entity["Zzfld000014"] = "X";
 			}
 
+			// dati questionario
+			if (oModel.getProperty("/score30_1")) {
+				entity["Zzfld00001x"] = "X";
+			}
+			if (oModel.getProperty("/score30_2")) {
+				entity["Zzfld00001y"] = "X";
+			}
+			if (oModel.getProperty("/score30_3")) {
+				entity["Zzfld00001z"] = "X";
+			}
+			if (oModel.getProperty("/score30_4")) {
+				entity["Zzfld000020"] = "X";
+			}
+			if (oModel.getProperty("/score30_5")) {
+				entity["Zzfld000021"] = "X";
+			}
+			if (oModel.getProperty("/score15_1")) {
+				entity["Zzfld000027"] = "X";
+			}
+			if (oModel.getProperty("/score15_2_1")) {
+				entity["Zzfld000028"] = "X";
+			}
+			if (oModel.getProperty("/score15_2_2")) {
+				entity["Zzfld000029"] = "X";
+			}
+			if (oModel.getProperty("/score15_2_3")) {
+				entity["Zzfld00002a"] = "X";
+			}
+			if (oModel.getProperty("/score15_3")) {
+				entity["Zzfld00002b"] = "X";
+			}
+			if (oModel.getProperty("/score10_1")) {
+				entity["Zzfld00002h"] = "X";
+			}
+			if (oModel.getProperty("/score10_2_1")) {
+				entity["Zzfld00002i"] = "X";
+			}
+			if (oModel.getProperty("/score10_2_4")) {
+				entity["Zzfld00002j"] = "X";
+			}
+			if (oModel.getProperty("/score10_2_5")) {
+				entity["Zzfld00002k"] = "X";
+			}
+			if (oModel.getProperty("/score10_2_6")) {
+				entity["Zzfld00002l"] = "X";
+			}
+			if (oModel.getProperty("/score10_2_7")) {
+				entity["Zzfld00002m"] = "X";
+			}
+			if (oModel.getProperty("/score10_3")) {
+				entity["Zzfld00002n"] = "X";
+			}
+
 			oDataModel.create("/nuovaRichiestaSet", entity, param);
 
 		},
@@ -324,11 +394,13 @@ sap.ui.define([
 				if (tableS[i].importoEuro !== "") {
 					entity = {};
 					entity["Description"] = tableS[i].tipologia;
-					entity["Importo"] = tableS[i].importoEuro;
+					//entity["Importo"] = 
 					entity["Zzfld00000e"] = "S"; //tipo investiemnto (A, B, S)
 					//entity["ZzinvType"] =  ; //tipo inv
-					//entity["Zzfld000016"] = tableA[i]. ; //sgravi
-					//entity["Zzfld000017"] = tableA[i]. ; //importo sgravi
+					if (oModel.getProperty("/claim3_3")) {
+						entity["Zzfld000016"] = "X"; //sgravi
+					}
+					entity["Zzfld000017"] = tableS[i].importoEuro; //importo sgravi
 
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}

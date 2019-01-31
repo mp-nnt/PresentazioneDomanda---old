@@ -42,7 +42,7 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{importoEuro}"/>
+											<Input value="{importoEuro}" type="Number"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
@@ -101,7 +101,7 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{importoEuro}"/>
+											<Input value="{importoEuro}" type="Number"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
@@ -178,7 +178,7 @@
 				<f:formElements>
 					<f:FormElement>
 						<f:fields>
-							<FormattedText htmlText="{i18n>privacyText}" width="100%"/>
+							<FormattedText htmlText="{i18n>privacyText}"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>date}">

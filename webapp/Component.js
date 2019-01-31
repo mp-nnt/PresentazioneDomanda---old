@@ -26,15 +26,16 @@ sap.ui.define([
 			// set the device model
 			this.setModel(models.createDeviceModel(), "device");
 
-			/*
-				// get WF task data ---> solo se richiamato nella inbox
+			// get WF task data ---> solo se richiamato nella inbox
+
+			if (this.getComponentData() !== undefined) {
 				var startupParameters = this.getComponentData().startupParameters;
 				var taskModel = startupParameters.taskModel;
 				var taskData = taskModel.getData();
-				var taskId = taskData.InstanceID;
-			*/
-
-			this.taskId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getTaskId();
+				this.taskId = taskData.InstanceID;
+			} else {
+				this.taskId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getTaskId();
+			}
 
 			// initialize WF model
 
@@ -48,6 +49,7 @@ sap.ui.define([
 
 			} else {
 
+				this.instanceId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getInstanceId(this.taskId);
 				// carico dati wf 
 				var contextModel = new sap.ui.model.json.JSONModel("/bpmworkflowruntime/rest/v1/task-instances/" + this.taskId + "/context");
 				contextModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
