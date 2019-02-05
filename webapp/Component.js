@@ -33,6 +33,23 @@ sap.ui.define([
 				var taskModel = startupParameters.taskModel;
 				var taskData = taskModel.getData();
 				this.taskId = taskData.InstanceID;
+
+				//add actions ---> valido solo nella inbox => andranno aggiunte direttamente nell'applicazione 
+				startupParameters.inboxAPI.addAction({
+					action: "Confirm",
+					label: "Conferma"
+				}, function (button) {
+					sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").onConfirm();
+					this._refreshTask();
+				}, this);
+				startupParameters.inboxAPI.addAction({
+					action: "Save",
+					label: "Salva Bozza"
+				}, function (button) {
+					sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").onSave();
+					this._refreshTask();
+				}, this);
+
 			} else {
 				this.taskId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getTaskId();
 			}
@@ -55,20 +72,7 @@ sap.ui.define([
 				contextModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);
 				this.setModel(contextModel);
 			}
-			/*
-			//add actions ---> valido solo nella inbox => andranno aggiunte direttamente nell'applicazione 
-							startupParameters.inboxAPI.addAction({
-								action: "Confirm",
-								label: "Conferma"
-							}, function (button) {
-								this._completeTask(taskId, true);
-							}, this);
-							startupParameters.inboxAPI.addAction({
-								action: "Save",
-								label: "Salva Bozza"
-							}, function (button) {
-								this._completeTask(taskId, false);
-							}, this); */
+
 		},
 
 		_refreshTask: function () {

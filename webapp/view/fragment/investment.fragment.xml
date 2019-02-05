@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
-	<f:Form editable="true" id="investmentForm" width="100%">
+	<f:Form editable="true" id="investmentForm" width="100%" class="investimento-form">
 		<f:layout>
 			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
 				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
@@ -16,7 +16,7 @@
 											<Label text="Tipologia degli investimenti e luogo" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{tipologia}"/>
+											<Input value="{tipologia}" class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
@@ -25,7 +25,8 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}"/>
+											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -34,7 +35,8 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}"/>
+											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
@@ -42,7 +44,7 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{importoEuro}" type="Number"/>
+											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
@@ -75,7 +77,7 @@
 											<Label text="Luogo" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{luogo}"/>
+											<Input value="{luogo}" class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
@@ -84,7 +86,8 @@
 											<Label text="Dal" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{inizio}"/>
+											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -93,7 +96,8 @@
 											<Label text="Fine" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{fine}"/>
+											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
@@ -101,7 +105,7 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{importoEuro}" type="Number"/>
+											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
@@ -119,22 +123,22 @@
 				<f:formElements>
 					<f:FormElement label="{i18n>tableC_1}">
 						<f:fields>
-							<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%"/>
+							<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label=" {i18n>tableC_2}">
 						<f:fields>
-							<TextArea id="tableC_2" value="{/tableC_2}" growing="true" width="100%"/>
+							<TextArea id="tableC_2" value="{/tableC_2}" growing="true" width="100%" class="investimento-form-textarea"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>tableC_3}">
 						<f:fields>
-							<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%"/>
+							<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>tableC_4}">
 						<f:fields>
-							<TextArea id="tableC_4" value="{/tableC_4}" growing="true" width="100%"/>
+							<TextArea id="tableC_4" value="{/tableC_4}" growing="true" width="100%" class="investimento-form-textarea"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
@@ -183,13 +187,13 @@
 					</f:FormElement>
 					<f:FormElement label="{i18n>date}">
 						<f:fields>
-							<Input width="50%" id="luogo" value="{/luogo}"/>
-							<Input width="50%" id="data" value="{/data}"/>
+							<Input width="50%" id="luogo" value="{/luogo}" class="investimento-form-input"/>
+							<Input width="50%" id="data" value="{/data}" class="investimento-form-input"/>
 						</f:fields>
 					</f:FormElement>
 					<f:FormElement label="{i18n>signature}">
 						<f:fields>
-							<Input width="50%" id="signature" value="{/signature}"/>
+							<Input width="50%" id="signature" value="{/signature}" class="investimento-form-input"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>

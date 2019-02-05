@@ -226,6 +226,8 @@ sap.ui.define([
 			var batchSuccess = function (oData) {
 				this.getView().setBusy(false);
 				sap.m.MessageToast.show("Richiesta creata");
+				this.getView().byId("btn_save").setEnabled(false);
+				this.getView().byId("btn_confirm").setEnabled(false);
 			}.bind(this);
 
 			var batchError = function (err) {
@@ -349,32 +351,37 @@ sap.ui.define([
 			var oDataModel = this.getView().getModel("oData");
 			var tableA = oModel.getProperty("/tableA");
 			var entity;
-			//if (!(tableA && tableA.length > 0)) {} else {
 			for (var i in tableA) {
 				if (tableA[i].importoEuro !== "") {
 
 					entity = {};
 					entity["Description"] = tableA[i].tipologia;
-					entity["DataInizio"] = tableA[i].inizio;
-					entity["DataFine"] = tableA[i].fine;
+					if (tableA[i].inizio !== "") {
+						entity["DataInizio"] = tableA[i].inizio;
+					}
+					if (tableA[i].fine !== "") {
+						entity["DataFine"] = tableA[i].fine;
+					}
 					entity["Importo"] = tableA[i].importoEuro;
 					entity["Zzfld00000e"] = "A"; //tipo investiemnto (A, B, S)
 
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}
 			}
-			//}
 
 			var tableB = oModel.getProperty("/tableB");
 
-			//if (!(tableA && tableA.length > 0)) {} else {
 			for (var i in tableB) {
 
 				if (tableB[i].importoEuro !== "") {
 					entity = {};
 					entity["Description"] = tableB[i].tipologia;
-					entity["DataInizio"] = tableB[i].inizio;
-					entity["DataFine"] = tableB[i].fine;
+					if (tableB[i].inizio !== "") {
+						entity["DataInizio"] = tableB[i].inizio;
+					}
+					if (tableB[i].fine !== "") {
+						entity["DataFine"] = tableB[i].fine;
+					}
 					entity["Importo"] = tableB[i].importoEuro;
 					entity["Zzfld000002"] = tableB[i].luogo; //luogo
 					//entity["ZzinvType"] =  ; //tipo inv
@@ -383,20 +390,15 @@ sap.ui.define([
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}
 			}
-			//}
 
-			//
 			var tableS = oModel.getProperty("/claim3_tbl");
 
-			//if (!(tableA && tableA.length > 0)) {} else {
 			for (var i in tableS) {
 
 				if (tableS[i].importoEuro !== "") {
 					entity = {};
 					entity["Description"] = tableS[i].tipologia;
-					//entity["Importo"] = 
 					entity["Zzfld00000e"] = "S"; //tipo investiemnto (A, B, S)
-					//entity["ZzinvType"] =  ; //tipo inv
 					if (oModel.getProperty("/claim3_3")) {
 						entity["Zzfld000016"] = "X"; //sgravi
 					}
@@ -405,7 +407,6 @@ sap.ui.define([
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}
 			}
-			//}
 
 		},
 

@@ -1,5 +1,5 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
-	<f:Form editable="true" id="statementForm" width="100%">
+	<f:Form editable="true" id="statementForm" width="100%" class="dichiarazioni-form">
 		<f:layout>
 			<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
 				emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
@@ -57,13 +57,13 @@
 										<t:Column>
 											<Label text="{i18n>claim3_tipo}"/>
 											<t:template>
-												<Input value="{tipologia}"/>
+												<Input value="{tipologia}" class="dichiarazioni-form-input"/>
 											</t:template>
 										</t:Column>
 										<t:Column>
 											<Label text="{i18n>claim3_importo}"/>
 											<t:template>
-												<Input value="{importoEuro}" type="Number"/>
+												<Input value="{importoEuro}" type="Number" class="dichiarazioni-form-input"/>
 											</t:template>
 										</t:Column>
 									</t:columns>
