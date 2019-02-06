@@ -18,7 +18,7 @@ sap.ui.define([
 			}), "file");
 
 			this.getView().setModel(new JSONModel({
-				"maximumFilenameLength": 55,
+				"maximumFilenameLength": 80,
 				"maximumFileSize": 10,
 				"mode": MobileLibrary.ListMode.SingleSelectMaster,
 				"uploadEnabled": true,
@@ -42,8 +42,8 @@ sap.ui.define([
 			}), "settings");
 
 			this.getView().setModel(new JSONModel({
-				"items": ["jpg", "txt", "ppt", "doc", "xls", "pdf", "png"],
-				"selected": ["jpg", "txt", "ppt", "doc", "xls", "pdf", "png"]
+				"items": ["jpg", "txt", "ppt", "doc", "docx", "xls", "pdf", "png"],
+				"selected": ["jpg", "txt", "ppt", "doc", "docx", "xls", "pdf", "png"]
 			}), "fileTypes");
 
 			// Sets the text to the label
@@ -56,34 +56,42 @@ sap.ui.define([
 
 		onAfterRendering: function () {
 			this.oModel = this.getView().getModel();
-			/*
-				this.mutableJSON = JSON.parse(JSON.stringify(this.dataModel));
-				var model = new JSONModel(this.mutableJSON);
-				this.getView().setModel(model);
-			*/
 		},
 
-		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
-		onSave: function () {
-
-			this.getView().setBusy(true);
-
-			// salvo task senza completare
-			this.completeTask(false);
-
+		// ---------------------------------------------------------------------------------- Start funzioni generiche
+		onTableAChange: function (oEvent) {
+			var oModel = this.getView().getModel();
+			var tableA = oModel.getProperty("/tableA");
+			var totalA = oModel.getProperty("/totalA");
+			totalA = this._getTotal(tableA, totalA);
+			oModel.setProperty("/totalA", totalA);
+			this.getView().setModel(oModel);
 		},
 
-		onConfirm: function () {
-
-			this.getView().setBusyIndicatorDelay(0);
-			this.getView().setBusy(true);
-
-			// completo task e creo la richiesta
-			this.completeTask(true);
-			this._requestCreation();
-
+		onTableBChange: function (oEvent) {
+			var oModel = this.getView().getModel();
+			var table = oModel.getProperty("/tableB");
+			var total = oModel.getProperty("/totalB");
+			total = this._getTotal(table, total);
+			oModel.setProperty("/totalB", total);
+			this.getView().setModel(oModel);
 		},
 
+		_getTotal: function (table, total) {
+			total = 0;
+			for (var i in table) {
+				if (table[i].importoEuro !== "" && !isNaN(table[i].importoEuro[0])) {
+
+					total = total + table[i].importoEuro[0];
+
+				}
+			}
+			return total;
+		},
+
+		// ---------------------------------------------------------------------------------- End funzioni generiche
+
+		// ---------------------------------------------------------------------------------- Start funzioni WF 
 		completeTask: function (approvalStatus) {
 
 			var taskId = this.getOwnerComponent().taskId;
@@ -211,8 +219,30 @@ sap.ui.define([
 			});
 
 		},
+		// ---------------------------------------------------------------------------------- End funzioni WF 
 
-		_requestCreation: function () {
+		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
+		onSave: function () {
+
+			this.getView().setBusy(true);
+
+			// salvo task senza completare
+			this.completeTask(false);
+
+		},
+
+		onConfirm: function () {
+
+			this.getView().setBusyIndicatorDelay(0);
+			this.getView().setBusy(true);
+
+			// completo task e creo la richiesta
+			this.completeTask(true);
+			this.requestCreation();
+
+		},
+
+		requestCreation: function () {
 
 			var oModel = this.getView().getModel("oData");
 			oModel.setUseBatch(true);
@@ -237,6 +267,7 @@ sap.ui.define([
 
 			this._odataHeaderCreate(mParameters);
 			this._odataItemsCreate(mParameters);
+			this._odataTextCreate(mParameters);
 			oModel.submitChanges({
 				"groupId": changeSetId,
 				//"changeSetId": changeSetId,
@@ -352,7 +383,7 @@ sap.ui.define([
 			var tableA = oModel.getProperty("/tableA");
 			var entity;
 			for (var i in tableA) {
-				if (tableA[i].importoEuro !== "") {
+				if (tableA[i].importoEuro !== "" && !isNaN(tableA[i].importoEuro[0])) {
 
 					entity = {};
 					entity["Description"] = tableA[i].tipologia;
@@ -362,7 +393,7 @@ sap.ui.define([
 					if (tableA[i].fine !== "") {
 						entity["DataFine"] = tableA[i].fine;
 					}
-					entity["Importo"] = tableA[i].importoEuro;
+					entity["Importo"] = tableA[i].importoEuro[0].toString();
 					entity["Zzfld00000e"] = "A"; //tipo investiemnto (A, B, S)
 
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
@@ -373,7 +404,7 @@ sap.ui.define([
 
 			for (var i in tableB) {
 
-				if (tableB[i].importoEuro !== "") {
+				if (tableB[i].importoEuro !== "" && !isNaN(tableB[i].importoEuro[0])) {
 					entity = {};
 					entity["Description"] = tableB[i].tipologia;
 					if (tableB[i].inizio !== "") {
@@ -382,7 +413,7 @@ sap.ui.define([
 					if (tableB[i].fine !== "") {
 						entity["DataFine"] = tableB[i].fine;
 					}
-					entity["Importo"] = tableB[i].importoEuro;
+					entity["Importo"] = tableB[i].importoEuro[0].toString();
 					entity["Zzfld000002"] = tableB[i].luogo; //luogo
 					//entity["ZzinvType"] =  ; //tipo inv
 					entity["Zzfld00000e"] = "B"; //tipo investiemnto (A, B, S)
@@ -408,6 +439,37 @@ sap.ui.define([
 				}
 			}
 
+		},
+
+		_odataTextCreate: function (param) {
+			var oModel = this.getView().getModel();
+			var oDataModel = this.getView().getModel("oData");
+			var entity;
+
+			if (oModel.getProperty("/tableC_1") !== "") {
+				entity = {};
+				entity["Tdid"] = "Z001";
+				entity["Text"] = oModel.getProperty("/tableC_1");
+				oDataModel.create("/testiRichiestaSet", entity, param);
+			}
+			if (oModel.getProperty("/tableC_2") !== "") {
+				entity = {};
+				entity["Tdid"] = "Z002";
+				entity["Text"] = oModel.getProperty("/tableC_2");
+				oDataModel.create("/testiRichiestaSet", entity, param);
+			}
+			if (oModel.getProperty("/tableC_3") !== "") {
+				entity = {};
+				entity["Tdid"] = "Z003";
+				entity["Text"] = oModel.getProperty("/tableC_3");
+				oDataModel.create("/testiRichiestaSet", entity, param);
+			}
+			if (oModel.getProperty("/tableC_4") !== "") {
+				entity = {};
+				entity["Tdid"] = "Z004";
+				entity["Text"] = oModel.getProperty("/tableC_4");
+				oDataModel.create("/testiRichiestaSet", entity, param);
+			}
 		},
 
 		// ---------------------------------------------------------------------------------- End Azioni Toolbar
@@ -440,12 +502,32 @@ sap.ui.define([
 
 		onChange: function (oEvent) {
 			var oUploadCollection = oEvent.getSource();
+			//var token = this.getView().getModel("file").getSecurityToken();
+
 			// Header Token
 			var oCustomerHeaderToken = new UploadCollectionParameter({
 				name: "x-csrf-token",
 				value: "Fetch"
 			});
 			oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
+
+			var that = this;
+			var reader = new FileReader();
+			var file = oEvent.getParameter("files")[0];
+
+			reader.onload = function (e) {
+
+				var raw = e.target.result;
+				//sap.m.MessageToast.show("binary string: " + raw);
+			};
+
+			reader.onerror = function (e) {
+				sap.m.MessageToast.show("error");
+			};
+			reader.readAsArrayBuffer(file);
+			//reader.readAsDataURL(file);
+			//reader.readAsBinaryString(file);
+
 		},
 
 		onFileDeleted: function (oEvent) {
@@ -562,7 +644,7 @@ sap.ui.define([
 			oEvent.getParameters().addHeaderParameter(oCustomerHeaderSlug);
 		},
 
-		onUploadTerminated: function () {
+		onUploadTerminated: function (oEvent) {
 			/*
 			// get parameter file name
 			var sFileName = oEvent.getParameter("fileName");

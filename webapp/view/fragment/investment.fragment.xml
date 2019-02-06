@@ -1,8 +1,9 @@
-<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
+<core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table"
+	xmlns:u="sap.ui.unified">
 	<f:Form editable="true" id="investmentForm" width="100%" class="investimento-form">
 		<f:layout>
 			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
-				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="false"/>
+				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
 		</f:layout>
 		<f:formContainers>
 			<f:FormContainer title="{i18n>tableA}">
@@ -44,18 +45,19 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" class="investimento-form-input"/>
+											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" textAlign="Right" change="onTableAChange"
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
 							</t:Table>
 						</f:fields>
 					</f:FormElement>
-					<!--f:FormElement label="{i18n>totalA}">
+					<f:FormElement>
 						<f:fields>
-							<Text text="{/totalA}"/>
+							<u:Currency value="{/totalA}" currency="EUR" useSymbol="true" class="investimento-form-currency"/>
 						</f:fields>
-					</f:FormElement-->
+					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="{i18n>tableB}">
@@ -105,18 +107,19 @@
 											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" class="investimento-form-input"/>
+											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" textAlign="Right" change="onTableBChange"
+												class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 								</t:columns>
 							</t:Table>
 						</f:fields>
 					</f:FormElement>
-					<!--f:FormElement label="{i18n>totalB}">
+					<f:FormElement>
 						<f:fields>
-							<Text text="{/totalB}"/>
+							<u:Currency value="{/totalB}" currency="EUR" useSymbol="true" class="investimento-form-currency"/>
 						</f:fields>
-					</f:FormElement-->
+					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
 			<f:FormContainer title="{i18n>tableC}">

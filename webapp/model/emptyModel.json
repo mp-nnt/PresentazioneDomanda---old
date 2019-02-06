@@ -98,7 +98,7 @@
 		"fine": "",
 		"importoEuro": ""
 	}],
-	"totalA": "",
+	"totalA": 0,
 	"tableB": [{
 		"tipologia": "Arredamenti",
 		"luogo": "",
@@ -154,7 +154,7 @@
 		"fine": "",
 		"importoEuro": ""
 	}],
-	"totalB": "",
+	"totalB": 0,
 	"tableC_1": "",
 	"tableC_2": "",
 	"tableC_3": "",
