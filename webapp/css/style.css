@@ -22,6 +22,11 @@ body {
     width: 0.675rem;
 }
 
+.sapUiResponsiveSplitterPage,
+.sapUiResponsiveSplitter {
+    height: auto!important;
+}
+
 
 /*SFONDO E ICONE VARIE*/
 
@@ -180,6 +185,10 @@ html.sap-desktop .sapContrast.sapMIBar.sapMFooter-CTX {
     border: 1px solid #ccc;
     color: #454544;
     border-radius: 4px;
+}
+
+.personal-data-form-text {
+    font-size: 18px;
 }
 
 .personal-data-form label {

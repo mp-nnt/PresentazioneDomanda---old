@@ -89,6 +89,43 @@ sap.ui.define([
 			return total;
 		},
 
+		onUserInfo: function (oEvent) {
+
+			var oModel = this.getView().getModel();
+			var data = oModel.getData();
+
+			if (data.piva !== "" && data.fiscalCode !== "") {
+
+				var oDataModel = this.getView().getModel("oData");
+				var sPath = "/userInfoSet(Piva='" + data.piva + "',Cf='" + data.fiscalCode + "')";
+				oDataModel.read(sPath, {
+					"success": function (oData) {
+						oModel.setProperty("/surname", oData.Cognome);
+						oModel.setProperty("/name", oData.Nome);
+						oModel.setProperty("/owner", oData.RagioneSociale);
+						oModel.setProperty("/piva", oData.Piva);
+						oModel.setProperty("/fiscalCode", oData.Cf);
+						//oModel.setProperty("/state", oData.);
+						//oModel.setProperty("/region", oData.);
+						oModel.setProperty("/postcode", oData.Cap);
+						oModel.setProperty("/city", oData.Citta);
+						//oModel.setProperty("/district", oData.);
+						oModel.setProperty("/street", oData.Indirizzo);
+						oModel.setProperty("/streetNumber", oData.NumeroCivico);
+						oModel.setProperty("/telephone", oData.Telefono);
+						oModel.setProperty("/mail", oData.Email);
+						oModel.setProperty("/pec", oData.EmailPec);
+						oModel.setProperty("/iban", oData.Iban);
+						this.getView().setModel(oModel);
+					}.bind(this),
+					"error": function (err) {
+						//MessageBox.error(err.message);
+						console.log(err.message);
+					}
+				});
+			}
+		},
+
 		// ---------------------------------------------------------------------------------- End funzioni generiche
 
 		// ---------------------------------------------------------------------------------- Start funzioni WF 
