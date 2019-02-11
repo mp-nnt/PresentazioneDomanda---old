@@ -105,11 +105,11 @@ sap.ui.define([
 						oModel.setProperty("/owner", oData.RagioneSociale);
 						oModel.setProperty("/piva", oData.Piva);
 						oModel.setProperty("/fiscalCode", oData.Cf);
-						//oModel.setProperty("/state", oData.);
-						//oModel.setProperty("/region", oData.);
+						oModel.setProperty("/state", oData.Country);
+						oModel.setProperty("/region", oData.Region);
 						oModel.setProperty("/postcode", oData.Cap);
 						oModel.setProperty("/city", oData.Citta);
-						//oModel.setProperty("/district", oData.);
+						oModel.setProperty("/district", oData.Bezei);
 						oModel.setProperty("/street", oData.Indirizzo);
 						oModel.setProperty("/streetNumber", oData.NumeroCivico);
 						oModel.setProperty("/telephone", oData.Telefono);
@@ -344,8 +344,8 @@ sap.ui.define([
 				entity["Zzfld00000g"] = "X";
 			}
 			entity["Zzfld00000z"] = oModel.getProperty("/stamp_duty_id");
-			if (oModel.getProperty("/stamp_duty_date") !== "") {
-				//	entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date"); <--- momentaneamente tolto su SEGW
+			if (oModel.getProperty("/stamp_duty_date") !== "" && !isNaN(oModel.getProperty("/stamp_duty_date")[0])) {
+				entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date");
 			}
 			if (oModel.getProperty("/claim3_1")) {
 				entity["Zzfld000012"] = "X";
