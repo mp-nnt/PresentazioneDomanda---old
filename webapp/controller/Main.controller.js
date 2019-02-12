@@ -55,7 +55,7 @@ sap.ui.define([
 		},
 
 		onAfterRendering: function () {
-			this.oModel = this.getView().getModel();
+			//this.oModel = this.getView().getModel();
 		},
 
 		// ---------------------------------------------------------------------------------- Start funzioni generiche
@@ -291,6 +291,8 @@ sap.ui.define([
 			};
 
 			var batchSuccess = function (oData) {
+				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
+				this.getView().getModel().setProperty("Guid", reqGuid);
 				this.getView().setBusy(false);
 				sap.m.MessageToast.show("Richiesta creata");
 				this.getView().byId("btn_save").setEnabled(false);
@@ -305,6 +307,7 @@ sap.ui.define([
 			this._odataHeaderCreate(mParameters);
 			this._odataItemsCreate(mParameters);
 			this._odataTextCreate(mParameters);
+			this._odataDocCreate(mParameters);
 			oModel.submitChanges({
 				"groupId": changeSetId,
 				//"changeSetId": changeSetId,
@@ -344,7 +347,7 @@ sap.ui.define([
 				entity["Zzfld00000g"] = "X";
 			}
 			entity["Zzfld00000z"] = oModel.getProperty("/stamp_duty_id");
-			if (oModel.getProperty("/stamp_duty_date") !== "" && !isNaN(oModel.getProperty("/stamp_duty_date")[0])) {
+			if (oModel.getProperty("/stamp_duty_date")) {
 				entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date");
 			}
 			if (oModel.getProperty("/claim3_1")) {
@@ -507,6 +510,27 @@ sap.ui.define([
 				entity["Text"] = oModel.getProperty("/tableC_4");
 				oDataModel.create("/testiRichiestaSet", entity, param);
 			}
+		},
+
+		_odataDocCreate: function (param) {
+			var oDataModel = this.getView().getModel("oData");
+			var entity;
+			var uploadJSON;
+			for (var i in uploadJSON) {
+
+				entity = {};
+				entity["Description"] = uploadJSON[i].fileId;
+				//entity["Tipologia"] = 
+				entity["Nome"] = uploadJSON[i].fileName;
+				entity["Mimetype"] = uploadJSON[i].fileMimeType;
+				entity["Dimensione"] = uploadJSON[i].fileDimension;
+				entity["Estensione"] = uploadJSON[i].fileExtension;
+				entity["Content"] = uploadJSON[i].fileContent;
+
+				oDataModel.create("/documentiRichiestaSet", entity, param);
+
+			}
+
 		},
 
 		// ---------------------------------------------------------------------------------- End Azioni Toolbar
@@ -785,9 +809,33 @@ sap.ui.define([
 
 		onDialogCloseButton: function () {
 			this.oSettingsDialog.close();
-		}
-
+		},
+		
 		// ---------------------------------------------------------------------------------- End File Uploader
+
+		onParentClicked: function (oEvent) {
+			var bSelected = oEvent.getParameter("selected");
+			var bId = oEvent.getParameter("id");
+			var oModel = this.getView().getModel();
+			
+			if (bId=== this.createId("_score15")){
+			oModel.setProperty("/score15_2_1", bSelected);
+			oModel.setProperty("/score15_2_2", bSelected);
+			oModel.setProperty("/score15_2_3", bSelected);
+			}
+			
+			if (bId=== this.createId("_score10")){
+		
+			oModel.setProperty("/score10_2_1", bSelected);
+			oModel.setProperty("/score10_2_2", bSelected);
+			oModel.setProperty("/score10_2_3", bSelected);
+			oModel.setProperty("/score10_2_4", bSelected);
+			oModel.setProperty("/score10_2_5", bSelected);
+			oModel.setProperty("/score10_2_6", bSelected);
+			oModel.setProperty("/score10_2_7", bSelected);
+			
+			}
+			}
 
 	});
 });

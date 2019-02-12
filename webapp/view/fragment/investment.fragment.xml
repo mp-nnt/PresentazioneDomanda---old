@@ -122,7 +122,7 @@
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
-			<f:FormContainer title="{i18n>tableC}">
+			<!--<f:FormContainer title="{i18n>tableC}">
 				<f:formElements>
 					<f:FormElement label="{i18n>tableC_1}">
 						<f:fields>
@@ -145,7 +145,7 @@
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
-			</f:FormContainer>
+			</f:FormContainer>-->
 			<f:FormContainer>
 				<f:formElements>
 					<f:FormElement>
