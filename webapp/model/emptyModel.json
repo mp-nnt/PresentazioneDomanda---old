@@ -183,19 +183,5 @@
 		"mimeType": "application/msword",
 		"thumbnailUrl": "",
 		"url": ""
-	}],
-	"VerifyDocument": [{
-		"documentId": "11_1524_2018",
-		"fileName": "FotocopiaCartaIdentità_2018.doc",
-		"mimeType": "application/msword",
-		"thumbnailUrl": "",
-		"url": ""
-	}],
-	"SettlementDocument": [{
-		"documentId": "1524_2018",
-		"fileName": "FatturaDelonghi_1524_2018.doc",
-		"mimeType": "application/msword",
-		"thumbnailUrl": "",
-		"url": ""
 	}]
 }

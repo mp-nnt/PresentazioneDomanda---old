@@ -12,6 +12,7 @@ sap.ui.define([
 
 	return Controller.extend("com.pabz.PresentazioneDomanda.controller.Main", {
 
+		uploadJSON: {},
 		onInit: function () {
 			this.getView().setModel(new JSONModel({
 				"items": []
@@ -42,8 +43,8 @@ sap.ui.define([
 			}), "settings");
 
 			this.getView().setModel(new JSONModel({
-				"items": ["jpg", "txt", "ppt", "doc", "docx", "xls", "pdf", "png"],
-				"selected": ["jpg", "txt", "ppt", "doc", "docx", "xls", "pdf", "png"]
+				"items": ["jpg", "txt", "ppt", "pptx", "doc", "docx", "xls", "xlsx", "pdf", "png"],
+				"selected": ["jpg", "txt", "ppt", "pptx", "doc", "docx", "xls", "xlsx", "pdf", "png"]
 			}), "fileTypes");
 
 			// Sets the text to the label
@@ -514,18 +515,19 @@ sap.ui.define([
 
 		_odataDocCreate: function (param) {
 			var oDataModel = this.getView().getModel("oData");
+			var oFileUploaded = this.getView().getModel("file").getData().items;
 			var entity;
-			var uploadJSON;
-			for (var i in uploadJSON) {
+			for (var i in oFileUploaded) {
 
 				entity = {};
-				entity["Description"] = uploadJSON[i].fileId;
-				//entity["Tipologia"] = 
-				entity["Nome"] = uploadJSON[i].fileName;
-				entity["Mimetype"] = uploadJSON[i].fileMimeType;
-				entity["Dimensione"] = uploadJSON[i].fileDimension;
-				entity["Estensione"] = uploadJSON[i].fileExtension;
-				entity["Content"] = uploadJSON[i].fileContent;
+				//entity["Description"] = oFileUploaded[i].fileId;
+				entity["Tipologia"] = "ZDOC_ALTRO";
+				entity["Nome"] = oFileUploaded[i].fileName;
+				entity["Mimetype"] = oFileUploaded[i].fileMimeType;
+				//entity["Dimensione"] = oFileUploaded[i].fileDimension;
+				entity["Estensione"] = oFileUploaded[i].fileExtension;
+				//entity["DataCaricamento"] = oFileUploaded[i].fileUploadDate;
+				entity["Content"] = oFileUploaded[i].fileContent;
 
 				oDataModel.create("/documentiRichiestaSet", entity, param);
 
@@ -561,46 +563,87 @@ sap.ui.define([
 
 		// ---------------------------------------------------------------------------------- Start File Uploader
 
-		onChange: function (oEvent) {
-			var oUploadCollection = oEvent.getSource();
-			//var token = this.getView().getModel("file").getSecurityToken();
+		arrayJSONStringify: function (array) {
+			for (var i = 0; i < array.length; i++) {
+				if (typeof array[i] !== "string") {
+					array[i] = JSON.stringify(array[i]);
+				}
+			}
+			return array;
+		},
 
+		arrayJSONParse: function (array) {
+			for (var i = 0; i < array.length; i++) {
+				array[i] = JSON.parse(array[i]);
+			}
+			return array;
+
+		},
+
+		onChange: function (oEvent) {
+			var that = this;
+			var oUploadCollection = oEvent.getSource();
 			// Header Token
 			var oCustomerHeaderToken = new UploadCollectionParameter({
 				name: "x-csrf-token",
-				value: "Fetch"
+				value: "securityTokenFromModel"
 			});
 			oUploadCollection.addHeaderParameter(oCustomerHeaderToken);
 
-			var that = this;
 			var reader = new FileReader();
 			var file = oEvent.getParameter("files")[0];
-
+			that.uploadJSON.fileId = jQuery.now().toString();
+			that.uploadJSON.fileName = file.name;
+			that.uploadJSON.fileMimeType = file.type;
+			that.uploadJSON.fileDimension = (file.size / 1000).toFixed(1) + " kB";
+			that.uploadJSON.fileExtension = file.name.split(".")[1];
+			that.uploadJSON.fileUploadDate = new Date(jQuery.now()).toLocaleDateString();
 			reader.onload = function (e) {
-
-				var raw = e.target.result;
-				//sap.m.MessageToast.show("binary string: " + raw);
+				that.uploadJSON.fileContent = e.target.result.substring(5 + that.uploadJSON.fileMimeType.length + 8);
 			};
 
 			reader.onerror = function (e) {
-				sap.m.MessageToast.show("error");
+				sap.m.MessageToast.show("Errore durante l'upload");
 			};
-			reader.readAsArrayBuffer(file);
-			//reader.readAsDataURL(file);
-			//reader.readAsBinaryString(file);
 
+			reader.readAsDataURL(file);
+
+		},
+
+		base64toBlob: function (base64Data, contentType) {
+			contentType = contentType || '';
+			var sliceSize = 1024;
+			var byteCharacters = atob(base64Data);
+			var bytesLength = byteCharacters.length;
+			var slicesCount = Math.ceil(bytesLength / sliceSize);
+			var byteArrays = new Array(slicesCount);
+
+			for (var sliceIndex = 0; sliceIndex < slicesCount; ++sliceIndex) {
+				var begin = sliceIndex * sliceSize;
+				var end = Math.min(begin + sliceSize, bytesLength);
+				var bytes = new Array(end - begin);
+
+				for (var offset = begin, i = 0; offset < end; ++i, ++offset) {
+					bytes[i] = byteCharacters[offset].charCodeAt(0);
+				}
+
+				byteArrays[sliceIndex] = new Uint8Array(bytes);
+			}
+
+			return new Blob(byteArrays, {
+				type: contentType
+			});
 		},
 
 		onFileDeleted: function (oEvent) {
 			this.deleteItemById(oEvent.getParameter("documentId"));
-			MessageToast.show(oEvent.getParameter("fileName") + " deleted");
 		},
 
 		deleteItemById: function (sItemToDeleteId) {
 			var oData = this.byId("UploadCollection").getModel("file").getData();
 			var aItems = jQuery.extend(true, {}, oData).items;
 			jQuery.each(aItems, function (index) {
-				if (aItems[index] && aItems[index].documentId === sItemToDeleteId) {
+				if (aItems[index] && aItems[index].fileId === sItemToDeleteId) {
 					aItems.splice(index, 1);
 				}
 			});
@@ -618,7 +661,7 @@ sap.ui.define([
 			jQuery.each(aItems, function (index) {
 				if (aItems[index]) {
 					for (i = 0; i < nItemsToDelete; i++) {
-						if (aItems[index].documentId === aItemsToDelete[i].getDocumentId()) {
+						if (aItems[index].fileId === aItemsToDelete[i].getDocumentId()) {
 							aItems.splice(index, 1);
 						}
 					}
@@ -631,7 +674,7 @@ sap.ui.define([
 		},
 
 		onFilenameLengthExceed: function () {
-			MessageToast.show("FilenameLengthExceed event triggered.");
+			MessageToast.show("La lunghezza del nome del file è troppo grande.");
 		},
 
 		onFileRenamed: function (oEvent) {
@@ -639,7 +682,7 @@ sap.ui.define([
 			var aItems = jQuery.extend(true, {}, oData).items;
 			var sDocumentId = oEvent.getParameter("documentId");
 			jQuery.each(aItems, function (index) {
-				if (aItems[index] && aItems[index].documentId === sDocumentId) {
+				if (aItems[index] && aItems[index].fileId === sDocumentId) {
 					aItems[index].fileName = oEvent.getParameter("item").getFileName();
 				}
 			});
@@ -649,48 +692,43 @@ sap.ui.define([
 		},
 
 		onFileSizeExceed: function () {
-			MessageToast.show("FileSizeExceed event triggered.");
+			MessageToast.show("Il file caricato è troppo grande.");
 		},
 
 		onTypeMissmatch: function () {
-			MessageToast.show("TypeMissmatch event triggered.");
+			MessageToast.show("Il tipo di file caricato non è supportato.");
 		},
 
 		onUploadComplete: function (oEvent) {
-			var oUploadCollection = this.byId("UploadCollection");
-			var oData = oUploadCollection.getModel("file").getData();
+			var that = this;
+			var oData = this.byId("UploadCollection").getModel("file").getData();
+
+			var blobForURL = this.base64toBlob(that.uploadJSON.fileContent, that.uploadJSON.fileMimeType);
+			var fileURL = URL.createObjectURL(blobForURL);
 
 			oData.items.unshift({
-				"documentId": jQuery.now().toString(), // generate Id,
-				"fileName": oEvent.getParameter("files")[0].fileName,
-				"mimeType": "",
-				"thumbnailUrl": "",
-				"url": "",
+				"fileId": that.uploadJSON.fileId,
+				"fileName": that.uploadJSON.fileName,
+				"fileMimeType": that.uploadJSON.fileMimeType,
+				"fileDimension": that.uploadJSON.fileDimension,
+				"fileExtension": that.uploadJSON.fileExtension,
+				"fileUploadDate": that.uploadJSON.fileUploadDate,
+				"fileContent": that.uploadJSON.fileContent,
+				"fileThumbnailUrl": "",
+				"fileURL": fileURL,
 				"attributes": [{
-						"title": "Uploaded By",
-						"text": "You",
-						"active": false
-					}, {
-						"title": "Uploaded On",
-						"text": new Date(jQuery.now()).toLocaleDateString(),
-						"active": false
-					}
-					//, 
-					//{
-					//	"title": "File Size",
-					//	"text": "505000",
-					//	"active": false
-					//}
-				],
-				"statuses": [{
-					"title": "",
-					"text": "",
-					"state": "None"
+					"title": "Data di caricamento",
+					"text": that.uploadJSON.fileUploadDate,
+					"active": false
+				}, {
+					"title": "Dimensione",
+					"text": that.uploadJSON.fileDimension,
+					"active": false
 				}],
-				"markers": [{}],
 				"selected": false
 			});
 			this.getView().getModel("file").refresh();
+			that.uploadJSON = {};
 
 			// Sets the text to the label
 			this.byId("attachmentTitle").setText(this.getAttachmentTitleText());
@@ -703,15 +741,6 @@ sap.ui.define([
 				value: oEvent.getParameter("fileName")
 			});
 			oEvent.getParameters().addHeaderParameter(oCustomerHeaderSlug);
-		},
-
-		onUploadTerminated: function (oEvent) {
-			/*
-			// get parameter file name
-			var sFileName = oEvent.getParameter("fileName");
-			// get a header parameter (in case no parameter specified, the callback function getHeaderParameter returns all request headers)
-			var oRequestHeaders = oEvent.getParameters().getHeaderParameter();
-			*/
 		},
 
 		onFileTypeChange: function (oEvent) {
@@ -742,7 +771,7 @@ sap.ui.define([
 
 		getAttachmentTitleText: function () {
 			var aItems = this.byId("UploadCollection").getItems();
-			return "Uploaded (" + aItems.length + ")";
+			return "Caricati (" + aItems.length + ")";
 		},
 
 		onModeChange: function (oEvent) {
@@ -775,7 +804,33 @@ sap.ui.define([
 				this.byId("selectAllButton").setPressed(false);
 				this.byId("selectAllButton").setText("Select all");
 			}
-			MessageToast.show("Delete selected items button press.");
+		},
+
+		onDownloadSelectedItems: function () {
+			var oData = this.byId("UploadCollection").getModel("file").getData();
+			var aSelectedItems = this.byId("UploadCollection").getSelectedItems();
+			var itemsSelected = aSelectedItems.length;
+			var i = 0;
+			var k = 0;
+			for (i = 0; i < itemsSelected; i++) {
+				for (k = 0; k < oData.items.length; k++) {
+					if (oData.items[k].fileId === aSelectedItems[i].getDocumentId()) {
+						var downloadableContent = oData.items[k];
+					}
+				}
+			}
+			var blob = this.base64toBlob(downloadableContent.fileContent, downloadableContent.fileMimeType);
+			var objectURL = URL.createObjectURL(blob);
+
+			var link = document.createElement('a');
+			link.style.display = 'none';
+			document.body.appendChild(link);
+
+			link.href = objectURL;
+			link.href = URL.createObjectURL(blob);
+			link.download = downloadableContent.fileName;
+			link.click();
+
 		},
 
 		onSelectionChange: function () {
@@ -790,14 +845,6 @@ sap.ui.define([
 			}
 		},
 
-		onAttributePress: function (oEvent) {
-			MessageToast.show("Attribute press event - " + oEvent.getSource().getTitle() + ": " + oEvent.getSource().getText());
-		},
-
-		onMarkerPress: function (oEvent) {
-			MessageToast.show("Marker press event - " + oEvent.getSource().getType());
-		},
-
 		onOpenAppSettings: function (oEvent) {
 			if (!this.oSettingsDialog) {
 				this.oSettingsDialog = sap.ui.xmlfragment("sap.m.sample.UploadCollection.AppSettings", this);
@@ -810,32 +857,32 @@ sap.ui.define([
 		onDialogCloseButton: function () {
 			this.oSettingsDialog.close();
 		},
-		
+
 		// ---------------------------------------------------------------------------------- End File Uploader
 
 		onParentClicked: function (oEvent) {
 			var bSelected = oEvent.getParameter("selected");
 			var bId = oEvent.getParameter("id");
 			var oModel = this.getView().getModel();
-			
-			if (bId=== this.createId("_score15")){
-			oModel.setProperty("/score15_2_1", bSelected);
-			oModel.setProperty("/score15_2_2", bSelected);
-			oModel.setProperty("/score15_2_3", bSelected);
+
+			if (bId === this.createId("_score15")) {
+				oModel.setProperty("/score15_2_1", bSelected);
+				oModel.setProperty("/score15_2_2", bSelected);
+				oModel.setProperty("/score15_2_3", bSelected);
 			}
-			
-			if (bId=== this.createId("_score10")){
-		
-			oModel.setProperty("/score10_2_1", bSelected);
-			oModel.setProperty("/score10_2_2", bSelected);
-			oModel.setProperty("/score10_2_3", bSelected);
-			oModel.setProperty("/score10_2_4", bSelected);
-			oModel.setProperty("/score10_2_5", bSelected);
-			oModel.setProperty("/score10_2_6", bSelected);
-			oModel.setProperty("/score10_2_7", bSelected);
-			
+
+			if (bId === this.createId("_score10")) {
+
+				oModel.setProperty("/score10_2_1", bSelected);
+				oModel.setProperty("/score10_2_2", bSelected);
+				oModel.setProperty("/score10_2_3", bSelected);
+				oModel.setProperty("/score10_2_4", bSelected);
+				oModel.setProperty("/score10_2_5", bSelected);
+				oModel.setProperty("/score10_2_6", bSelected);
+				oModel.setProperty("/score10_2_7", bSelected);
+
 			}
-			}
+		}
 
 	});
 });
