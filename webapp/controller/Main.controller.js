@@ -261,25 +261,29 @@ sap.ui.define([
 
 		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
 		onSave: function () {
-
 			this.getView().setBusy(true);
-
-			// salvo task senza completare
-			this.completeTask(false);
-
+			if (!this.onCheck()) {
+				this.completeTask(false);
+			} else {
+				this.getView().setBusy(false);
+				var msg = 'Inserire dati obbligatori';
+				MessageToast.show(msg);
+			}
 		},
 
 		onConfirm: function () {
-
 			this.getView().setBusyIndicatorDelay(0);
 			this.getView().setBusy(true);
-
-			// completo task e creo la richiesta
-			this.completeTask(true);
-			this.requestCreation();
+			if (!this.onCheck()) {
+				this.completeTask(false);
+				this.requestCreation();
+			} else {
+				this.getView().setBusy(false);
+				var msg = 'Inserire dati obbligatori';
+				MessageToast.show(msg);
+			}
 
 		},
-
 		requestCreation: function () {
 
 			var oModel = this.getView().getModel("oData");
@@ -293,8 +297,8 @@ sap.ui.define([
 
 			var batchSuccess = function (oData) {
 				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
-				this.getView().getModel().setProperty("Guid", reqGuid);
-				this.getView().setBusy(false);
+				this.getView().getModel().setProperty("/guid", reqGuid);
+				this.completeTask(true);
 				sap.m.MessageToast.show("Richiesta creata");
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
@@ -332,6 +336,10 @@ sap.ui.define([
 			entity["SettoreC"] = oModel.getProperty("/trade");
 			entity["SettoreS"] = oModel.getProperty("/services");
 			entity["SettoreL"] = oModel.getProperty("/freelance");
+			entity["Zzfld00000z"] = oModel.getProperty("/stamp_duty_id");
+			if (oModel.getProperty("/stamp_duty_date") !== "") {
+				entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date");
+			}
 			if (oModel.getProperty("/newFactory")) {
 				entity["Zzfld000007"] = "X";
 			}
@@ -346,10 +354,6 @@ sap.ui.define([
 			}
 			if (oModel.getProperty("/claim3_1")) {
 				entity["Zzfld00000g"] = "X";
-			}
-			entity["Zzfld00000z"] = oModel.getProperty("/stamp_duty_id");
-			if (oModel.getProperty("/stamp_duty_date")) {
-				entity["Zzfld000010"] = oModel.getProperty("/stamp_duty_date");
 			}
 			if (oModel.getProperty("/claim3_1")) {
 				entity["Zzfld000012"] = "X";
@@ -413,6 +417,8 @@ sap.ui.define([
 			if (oModel.getProperty("/score10_3")) {
 				entity["Zzfld00002n"] = "X";
 			}
+
+			entity["Zzfld00002x"] = this.getOwnerComponent().instanceId;
 
 			oDataModel.create("/nuovaRichiestaSet", entity, param);
 
@@ -882,7 +888,38 @@ sap.ui.define([
 				oModel.setProperty("/score10_2_7", bSelected);
 
 			}
-		}
+		},
 
+		onCheck: function () {
+
+			var p = false;
+
+			if ((this.getView().byId("box1").getSelected()) && (this.getView().byId("tableC_1").getValue() == '')) {
+				this.getView().byId("tableC_1").setValueState("Error");
+				this.getView().byId("tableC_1").setValueStateText("Inserire il testo");
+				p = true;
+			}
+
+			if ((this.getView().byId("box2").getSelected()) && this.getView().byId("tableC_2").getValue() == '') {
+				this.getView().byId("tableC_2").setValueState("Error");
+				this.getView().byId("tableC_2").setValueStateText("Inserire il testo");
+				p = true;
+			}
+
+			if ((this.getView().byId("box3").getSelected()) && this.getView().byId("tableC_3").getValue() == '') {
+				this.getView().byId("tableC_3").setValueState("Error");
+				this.getView().byId("tableC_3").setValueStateText("Inserire il testo");
+				p = true;
+			}
+
+			if ((this.getView().byId("box4").getSelected()) && this.getView().byId("tableC_4").getValue() == '') {
+				this.getView().byId("tableC_4").setValueState("Error");
+				this.getView().byId("tableC_4").setValueStateText("Inserire il testo");
+				p = true;
+			}
+
+			return p;
+
+		},
 	});
 });

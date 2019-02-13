@@ -122,30 +122,6 @@
 					</f:FormElement>
 				</f:formElements>
 			</f:FormContainer>
-			<!--<f:FormContainer title="{i18n>tableC}">
-				<f:formElements>
-					<f:FormElement label="{i18n>tableC_1}">
-						<f:fields>
-							<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea"/>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label=" {i18n>tableC_2}">
-						<f:fields>
-							<TextArea id="tableC_2" value="{/tableC_2}" growing="true" width="100%" class="investimento-form-textarea"/>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="{i18n>tableC_3}">
-						<f:fields>
-							<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea"/>
-						</f:fields>
-					</f:FormElement>
-					<f:FormElement label="{i18n>tableC_4}">
-						<f:fields>
-							<TextArea id="tableC_4" value="{/tableC_4}" growing="true" width="100%" class="investimento-form-textarea"/>
-						</f:fields>
-					</f:FormElement>
-				</f:formElements>
-			</f:FormContainer>-->
 			<f:FormContainer>
 				<f:formElements>
 					<f:FormElement>
@@ -168,6 +144,23 @@
 									</buttons>
 								</RadioButtonGroup>
 							</VBox>
+						</f:fields>
+					</f:FormElement>
+				</f:formElements>
+			</f:FormContainer>
+			<f:FormContainer title="{i18n>stamp_duty}">
+				<f:formElements>
+					<f:FormElement label="{i18n>stamp_duty_id}" id="stamp_duty_id_lbl">
+						<f:fields>
+							<MaskInput width="50%" id="stamp_duty_id_inp" value="{/stamp_duty_id}" mask="9999999999" placeholder="{i18n>stamp_duty_claim}"
+								class="personal-data-form-input"/>
+						</f:fields>
+					</f:FormElement>
+					<f:FormElement label="{i18n>stamp_duty_date}" id="stamp_duty_date_lbl">
+						<f:fields>
+							<DatePicker id="PlDate" width="50%"
+								value="{path: '/stamp_duty_date', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}"
+								placeholder="{i18n>ph_stamp_duty_date}" class="personal-data-form-input"/>
 						</f:fields>
 					</f:FormElement>
 				</f:formElements>
