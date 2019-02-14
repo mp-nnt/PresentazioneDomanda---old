@@ -19,6 +19,11 @@ sap.ui.define([
 			}), "file");
 
 			this.getView().setModel(new JSONModel({
+				"inizio": new Date(),
+				"fine": new Date(2019, 11, 31)
+			}), "date");
+
+			this.getView().setModel(new JSONModel({
 				"maximumFilenameLength": 80,
 				"maximumFileSize": 10,
 				"mode": MobileLibrary.ListMode.SingleSelectMaster,
