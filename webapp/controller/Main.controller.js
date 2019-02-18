@@ -17,11 +17,6 @@ sap.ui.define([
 		onInit: function () {
 
 			this.getView().setModel(new JSONModel({
-				"inizio": new Date(),
-				"fine": new Date(2019, 11, 31)
-			}), "date");
-
-			this.getView().setModel(new JSONModel({
 				"maximumFilenameLength": 80,
 				"maximumFileSize": 10,
 				"mode": MobileLibrary.ListMode.SingleSelectMaster,
@@ -76,6 +71,14 @@ sap.ui.define([
 					this.byId("attachmentTitle" + this.ArrayId[4]).setText(this.getAttachmentTitleText(this.ArrayId[4]));
 				}.bind(this)
 			});
+
+			var that = this;
+
+			$(window).bind("load", function () {
+				var oModel = that.getView().getModel();
+				that._onProcessInfo(oModel);
+			});
+
 		},
 
 		onAfterRendering: function () {
@@ -148,6 +151,29 @@ sap.ui.define([
 					}
 				});
 			}
+		},
+
+		_onProcessInfo: function (oModel) {
+
+			var data = oModel.getData();
+
+			var oDataModel = this.getView().getModel("oData");
+			var sPath = "/processInfoSet(ProcessType='" + data.processType + "')";
+			oDataModel.read(sPath, {
+				"success": function (oData) {
+
+					this.getView().setModel(new JSONModel({
+						"inizio": new Date(), //inizio è sempre oggi
+						"fine": oData.ProcessEnd //fine è quanto arriva dal servizio
+					}), "date");
+
+				}.bind(this),
+				"error": function (err) {
+					//MessageBox.error(err.message);
+					console.log(err.message);
+				}
+			});
+
 		},
 
 		// ---------------------------------------------------------------------------------- End funzioni generiche

@@ -100,12 +100,22 @@
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Mimetype" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="MIMETYPE" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Content" Type="Edm.String" Nullable="false" sap:unicode="false" sap:label="Flusso documento" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
+			<EntityType Name="processInfo" sap:content-version="1">
+				<Key><PropertyRef Name="ProcessType"/></Key><Property Name="ExternalId" Type="Edm.String" Nullable="false" MaxLength="24" sap:unicode="false" sap:label="Numero" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessStart" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Data Inizio"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessEnd" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Data Fine"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProcessType" Type="Edm.String" Nullable="false" MaxLength="4" sap:unicode="false" sap:label="Tipo transazione"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="ProjectGuid" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false"
+					sap:label="Pianificazione progetto: GUID a 16 posizioni per progetti" sap:creatable="false" sap:updatable="false" sap:sortable="false"
+					sap:filterable="false"/><Property Name="ObjectType" Type="Edm.String" Nullable="false" MaxLength="3" sap:unicode="false" sap:label="Tipo oggetto"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/></EntityType>
 			<EntityContainer Name="ZPAB_GRANTOR_SRV_Entities" m:IsDefaultEntityContainer="true" sap:supported-formats="atom json xlsx"><EntitySet Name="nuovaRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.nuovaRichiesta" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="posizioniRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.posizioniRichiesta" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="testiRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.testiRichiesta" sap:creatable="false" sap:updatable="false"
 				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="userInfoSet" EntityType="ZPAB_GRANTOR_SRV.userInfo" sap:creatable="false" sap:updatable="false" sap:deletable="false"
 				sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="documentiRichiestaSet" EntityType="ZPAB_GRANTOR_SRV.documentiRichiesta" sap:creatable="false" sap:updatable="false"
-				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/></EntityContainer><atom:link rel="self"
+				sap:deletable="false" sap:pageable="false" sap:addressable="false" sap:content-version="1"/><EntitySet Name="processInfoSet" EntityType="ZPAB_GRANTOR_SRV.processInfo" sap:creatable="false" sap:updatable="false" sap:deletable="false"
+				sap:pageable="false" sap:addressable="false" sap:content-version="1"/></EntityContainer><atom:link rel="self"
 				href="https://webidecp-e5379c8a0.dispatcher.eu2.hana.ondemand.com/destinations/CRM/sap/opu/odata/sap/ZPAB_GRANTOR_SRV/$metadata"
 				xmlns:atom="http://www.w3.org/2005/Atom"/><atom:link rel="latest-version"
 				href="https://webidecp-e5379c8a0.dispatcher.eu2.hana.ondemand.com/destinations/CRM/sap/opu/odata/sap/ZPAB_GRANTOR_SRV/$metadata"
