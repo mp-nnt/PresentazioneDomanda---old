@@ -27,7 +27,7 @@
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
-												minDate="{date>/inizio}" maxDate="{date>/fine}" class="investimento-form-input"/>
+												minDate="{date>/inizio}" maxDate="{date>/fine}" valueState="{statei}" valueStateText="{stateValuei}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -37,7 +37,7 @@
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
-												minDate="{date>/inizio}" maxDate="{date>/fine}" class="investimento-form-input"/>
+												minDate="{date>/inizio}" maxDate="{date>/fine}" valueState="{statef}" valueStateText="{stateValuef}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
@@ -89,7 +89,7 @@
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
-												minDate="{date>/inizio}" maxDate="{date>/fine}" class="investimento-form-input"/>
+												minDate="{date>/inizio}" maxDate="{date>/fine}" valueState="{statei}" valueStateText="{stateValuei}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
@@ -99,7 +99,7 @@
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
-												minDate="{date>/inizio}" maxDate="{date>/fine}" class="investimento-form-input"/>
+												minDate="{date>/inizio}" maxDate="{date>/fine}" valueState="{statef}" valueStateText="{stateValuef}"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">

@@ -34,13 +34,16 @@
 						<f:fields>
 							<VBox>
 								<FormattedText htmlText="{i18n>claimText1}" width="100%"/>
-								<CheckBox id="box1" text="{i18n>newFactory}" selected="{/newFactory}"/>
-								<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newFactory}"/>
-								<CheckBox id="box2" text="{i18n>increaseFactory}" selected="{/increaseFactory}"/>
+								<CheckBox id="box1" text="{i18n>newFactory}" selected="{/newFactory}" select="onPressText"/>
+								<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newFactory}" />
+						
+								<CheckBox id="box2" text="{i18n>increaseFactory}" selected="{/increaseFactory}" select="onPressText"/>
 								<TextArea id="tableC_2" value="{/tableC_2}" growing="true" width="100%" class="investimento-form-textarea" visible="{/increaseFactory}"/>
-								<CheckBox id="box3" text="{i18n>newGood}" selected="{/newGood}"/>
-								<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newGood}"/>
-								<CheckBox id="box4" text="{i18n>newProcess}" selected="{/newProcess}"/>
+								
+								<CheckBox id="box3" text="{i18n>newGood}" selected="{/newGood}" select="onPressText"/>
+								<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newGood}" />
+								
+								<CheckBox id="box4" text="{i18n>newProcess}" selected="{/newProcess}" select="onPressText"/>
 								<TextArea id="tableC_4" value="{/tableC_4}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newProcess}"/>
 								<!--<FormattedText htmlText="{i18n>claimText2}" width="100%"/>-->
 							</VBox>

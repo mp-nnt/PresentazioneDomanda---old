@@ -76,27 +76,47 @@
 		"tipologia": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}],
 	"totalA": 0,
 	"tableB": [{
@@ -104,19 +124,31 @@
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Hardware",
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Software funzionali",
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Macchinari ed impianti",
 		"luogo": "",
@@ -128,7 +160,11 @@
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Attrezzature",
 		"luogo": "",
@@ -140,19 +176,31 @@
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Veicoli per il trasporto di persone",
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}, {
 		"tipologia": "Veicoli per il trasporto di cose",
 		"luogo": "",
 		"inizio": "",
 		"fine": "",
-		"importoEuro": ""
+		"importoEuro": "",
+		"statei": "None",
+		"stateValuei": "",
+		"statef": "None",
+		"stateValuef": ""
 	}],
 	"totalB": 0,
 	"tableC_1": "",
@@ -177,11 +225,9 @@
 		"dataS": "",
 		"imponibile": ""
 	}],
-	"UplDocument": [{
-		"documentId": "12_1524_2018",
-		"fileName": "2018.doc",
-		"mimeType": "application/msword",
-		"thumbnailUrl": "",
-		"url": ""
-	}]
+	"CartaIdentita": [],
+	"Preventivi": [],
+	"Dichiarazioni": [],
+	"Pagamenti": [],
+	"Altro": []
 }
