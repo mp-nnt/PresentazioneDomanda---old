@@ -5,8 +5,10 @@
 		<Schema Namespace="ZPAB_GRANTOR_SRV" xml:lang="it" sap:schema-version="1" xmlns="http://schemas.microsoft.com/ado/2008/09/edm">
 			<EntityType Name="nuovaRichiesta" sap:content-version="1">
 				<Key><PropertyRef Name="Guid"/><PropertyRef Name="ObjectId"/></Key><Property Name="Zzfld00001t" Type="Edm.String" Nullable="false" MaxLength="2" sap:unicode="false" sap:label="Lingua" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Guid" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="GUID 16" sap:creatable="false"
-					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000010" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Data marca da bollo" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00000u" Type="Edm.String" Nullable="false" MaxLength="10" sap:unicode="false" sap:label="Numero Protocol"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Guid" Type="Edm.String" Nullable="false" MaxLength="32" sap:unicode="false" sap:label="GUID 16" sap:creatable="false"
+					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000019" Type="Edm.String" Nullable="false" MaxLength="20" sap:unicode="false" sap:label="Codice Fascicolo"
+					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld000010" Type="Edm.DateTime" Precision="7" sap:unicode="false" sap:label="Data marca da bollo" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00001x" Type="Edm.String" Nullable="false" MaxLength="1" sap:unicode="false" sap:label="Beni strum. imp 4.0"
 					sap:creatable="false" sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="Zzfld00002x" Type="Edm.String" Nullable="false" MaxLength="60" sap:unicode="false" sap:label="WS SCP" sap:creatable="false"
 					sap:updatable="false" sap:sortable="false" sap:filterable="false"/><Property Name="PostingDate" Type="Edm.DateTime" Nullable="false" Precision="7" sap:unicode="false" sap:label="Data di reg."

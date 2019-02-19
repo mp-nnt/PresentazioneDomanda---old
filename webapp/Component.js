@@ -28,11 +28,14 @@ sap.ui.define([
 
 			// get WF task data ---> solo se richiamato nella inbox
 
+			this.taskId = null;
+
 			if (this.getComponentData() !== undefined) {
 				var startupParameters = this.getComponentData().startupParameters;
 				var taskModel = startupParameters.taskModel;
 				var taskData = taskModel.getData();
 				this.taskId = taskData.InstanceID;
+				this.instanceId = sap.ui.controller("com.pabz.CaricamentoDocumentazione.controller.Main").getInstanceIdFromTask(this.taskId);
 
 				//add actions ---> valido solo nella inbox => andranno aggiunte direttamente nell'applicazione 
 				startupParameters.inboxAPI.addAction({
@@ -51,22 +54,22 @@ sap.ui.define([
 				}, this);
 
 			} else {
-				this.taskId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getTaskId();
+
+				this.instanceId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getInstanceIdParam();
+				this.taskId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getTaskId(this.instanceId);
+
 			}
 
 			// initialize WF model
 
-			if (this.taskId === null) {
+			if (this.instanceId === null) {
 
 				// creo nuovo wf	
-				//set Mockdata
-				//var sPath = "model/mockData/model.json";
 				var sPath = "model/emptyModel.json";
 				this.setModel(new sap.ui.model.json.JSONModel(sPath));
 
 			} else {
 
-				this.instanceId = sap.ui.controller("com.pabz.PresentazioneDomanda.controller.Main").getInstanceId(this.taskId);
 				// carico dati wf 
 				var contextModel = new sap.ui.model.json.JSONModel("/bpmworkflowruntime/rest/v1/task-instances/" + this.taskId + "/context");
 				contextModel.setDefaultBindingMode(sap.ui.model.BindingMode.TwoWay);

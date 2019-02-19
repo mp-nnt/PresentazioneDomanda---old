@@ -1,8 +1,7 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core" xmlns:t="sap.ui.table">
 	<f:Form editable="true" id="statementForm" width="100%" class="dichiarazioni-form">
 		<f:layout>
-			<f:ResponsiveGridLayout labelSpanXL="3" labelSpanL="3" labelSpanM="3" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
-				emptySpanM="0" emptySpanS="0" columnsXL="1" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+			<f:GridLayout singleColumn="true"/>
 		</f:layout>
 		<f:formContainers>
 			<f:FormContainer title="{i18n>company}">
@@ -34,15 +33,15 @@
 						<f:fields>
 							<VBox>
 								<FormattedText htmlText="{i18n>claimText1}" width="100%"/>
+								<FormattedText htmlText="{i18n>claimText1_2}" width="100%"/>
+								<MessageStrip id="errorMessage" text="{i18n>claimText1_err}" type="Error" showIcon="true" showCloseButton="true"
+									class="sapUiTinyMarginBottom" visible="false"></MessageStrip>
 								<CheckBox id="box1" text="{i18n>newFactory}" selected="{/newFactory}" select="onPressText"/>
-								<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newFactory}" />
-						
+								<TextArea id="tableC_1" value="{/tableC_1}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newFactory}"/>
 								<CheckBox id="box2" text="{i18n>increaseFactory}" selected="{/increaseFactory}" select="onPressText"/>
 								<TextArea id="tableC_2" value="{/tableC_2}" growing="true" width="100%" class="investimento-form-textarea" visible="{/increaseFactory}"/>
-								
 								<CheckBox id="box3" text="{i18n>newGood}" selected="{/newGood}" select="onPressText"/>
-								<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newGood}" />
-								
+								<TextArea id="tableC_3" value="{/tableC_3}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newGood}"/>
 								<CheckBox id="box4" text="{i18n>newProcess}" selected="{/newProcess}" select="onPressText"/>
 								<TextArea id="tableC_4" value="{/tableC_4}" growing="true" width="100%" class="investimento-form-textarea" visible="{/newProcess}"/>
 								<!--<FormattedText htmlText="{i18n>claimText2}" width="100%"/>-->

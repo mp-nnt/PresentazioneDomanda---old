@@ -6,8 +6,10 @@ sap.ui.define([
 	"sap/m/UploadCollectionParameter",
 	"sap/m/library",
 	"sap/ui/model/json/JSONModel",
-	"sap/ui/core/format/FileSizeFormat"
-], function (Controller, jQuery, ObjectMarker, MessageToast, UploadCollectionParameter, MobileLibrary, JSONModel, FileSizeFormat) {
+	"sap/ui/core/format/FileSizeFormat",
+	'sap/m/MessageBox'
+], function (Controller, jQuery, ObjectMarker, MessageToast, UploadCollectionParameter, MobileLibrary, JSONModel, FileSizeFormat,
+	MessageBox) {
 	"use strict";
 
 	return Controller.extend("com.pabz.PresentazioneDomanda.controller.Main", {
@@ -76,14 +78,12 @@ sap.ui.define([
 
 			$(window).bind("load", function () {
 				var oModel = that.getView().getModel();
-				that._onProcessInfo(oModel);
+				that.onProcessInfo(oModel);
 			});
 
 		},
 
-		onAfterRendering: function () {
-			//this.oModel = this.getView().getModel();
-		},
+		onAfterRendering: function () {},
 
 		// ---------------------------------------------------------------------------------- Start funzioni generiche
 		onTableAChange: function (oEvent) {
@@ -153,7 +153,7 @@ sap.ui.define([
 			}
 		},
 
-		_onProcessInfo: function (oModel) {
+		onProcessInfo: function (oModel) {
 
 			var data = oModel.getData();
 
@@ -189,9 +189,9 @@ sap.ui.define([
 
 			if (taskId === null) {
 
-				if (instanceId === undefined) {
+				if (instanceId === null) {
 
-					oModel.setProperty("/Azienda", "Azienda"); // Andrà sostituito con gruppo Azienda
+					oModel.setProperty("/Azienda", oModel.getData().piva);
 
 					// creo il task id
 					$.ajax({
@@ -260,9 +260,9 @@ sap.ui.define([
 					"X-CSRF-Token": token
 				},
 				success: function (result, xhr, data) {
-					var oModel = this.getView().getModel();
 					this.getOwnerComponent().taskId = result[result.length - 1].id;
 					if (toComplete) {
+						var oModel = this.getView().getModel();
 						this._completeTask(this.getOwnerComponent().taskId, oModel, token);
 					}
 				}.bind(this),
@@ -286,13 +286,18 @@ sap.ui.define([
 			return token;
 		},
 
-		getTaskId: function () {
+		getTaskIdParam: function () {
 			return jQuery.sap.getUriParameters().get("taskid");
+		},
+
+		getInstanceIdParam: function () {
+			return jQuery.sap.getUriParameters().get("wfId");
 		},
 
 		getInstanceId: function (taskId) {
 
 			var token = this._fetchToken();
+			var instanceId = null;
 			$.ajax({
 				url: "/bpmworkflowruntime/rest/v1/task-instances/" + taskId,
 				method: "GET",
@@ -301,9 +306,29 @@ sap.ui.define([
 					"X-CSRF-Token": token
 				},
 				success: function (result, xhr, data) {
-					return result[0].workflowInstanceId;
+					instanceId = result.workflowInstanceId;
 				}
 			});
+			return instanceId;
+
+		},
+
+		getTaskId: function (instanceId) {
+
+			var token = this._fetchToken();
+			var taskId = null;
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/task-instances?workflowInstanceId=" + instanceId,
+				method: "GET",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				success: function (result, xhr, data) {
+					taskId = result[result.length - 1].id;
+				}
+			});
+			return taskId;
 
 		},
 		// ---------------------------------------------------------------------------------- End funzioni WF 
@@ -324,8 +349,25 @@ sap.ui.define([
 			this.getView().setBusyIndicatorDelay(0);
 			this.getView().setBusy(true);
 			if (!this.onCheck()) {
-				this.completeTask(false);
-				this.requestCreation();
+
+				//messaggio alla conferma   warning with two actions
+
+				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
+				MessageBox.warning(
+					"Confermare?", {
+						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+						styleClass: bCompact ? "sapUiSizeCompact" : "",
+						onClose: function (sAction) {
+							if (sAction === MessageBox.Action.OK) {
+								this.completeTask(false); //inserire nell'azione in risposta al ok
+								this.requestCreation(); //inserire nell'azione in risposta al ok
+							} else {
+								this.getView().setBusy(false);
+								MessageToast.show("Operazione annullata");
+							}
+						}.bind(this)
+					}
+				);
 			} else {
 				this.getView().setBusy(false);
 				var msg = 'Dati mancanti o errati';
@@ -346,10 +388,12 @@ sap.ui.define([
 
 			var batchSuccess = function (oData) {
 				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
+				var reqNumProt = oData.__batchResponses[0].__changeResponses[0].data.Zzfld00000u; //
+				var reqCodFasc = oData.__batchResponses[0].__changeResponses[0].data.Zzfld000019;
 				this.getView().getModel().setProperty("/guid", reqGuid);
 				this.getView().setBusy(false);
 				this.completeTask(true);
-				sap.m.MessageToast.show("Richiesta creata");
+				sap.m.MessageToast.show("Richiesta creata" + " Numero Protocollo: " + reqNumProt + " Codice Fascicolo: " + reqCodFasc);
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
 			}.bind(this);
@@ -579,7 +623,7 @@ sap.ui.define([
 		_odataDocCreate: function (param) {
 			var i;
 			var length = this.ArrayId.length;
-			var oDataModel = this.getView().getModel();
+			var oDataModel = this.getView().getModel("oData");
 			var oFileUploaded = this.getView().getModel().getData();
 			for (i = 0; i < length; i++) {
 				var entity;
@@ -959,6 +1003,12 @@ sap.ui.define([
 				p = true;
 			}
 
+			if ((!this.getView().byId("box1").getSelected()) && (!this.getView().byId("box2").getSelected()) && (!this.getView().byId("box3").getSelected()) &&
+				(!this.getView().byId("box4").getSelected())) {
+				p = true;
+				this.getView().byId("errorMessage").setVisible(true);
+			}
+
 			var oModel = this.getView().getModel();
 
 			var tableA = oModel.getProperty("/tableA");
@@ -1048,6 +1098,26 @@ sap.ui.define([
 					oModel.setProperty("/tableC_4", "");
 				}
 			}
+			if (bSelected) {
+
+				this.getView().byId("errorMessage").setVisible(false);
+			}
+		},
+
+		addRows: function () {
+			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
+			var Table = oModel.getProperty("/tableA");
+			Table.push({
+				tipologia: '',
+				inizio: '',
+				fine: '',
+				importoEuro: '',
+				statei: '',
+				stateValuei: '',
+				statef: '',
+				stateValuef: ''
+			});
+			oModel.refresh();
 		}
 	});
 });

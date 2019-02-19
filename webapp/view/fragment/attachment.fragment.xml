@@ -1,6 +1,6 @@
 <core:FragmentDefinition xmlns="sap.m" xmlns:l="sap.ui.layout" xmlns:f="sap.ui.layout.form" xmlns:core="sap.ui.core"
 	xmlns:u="sap.ui.unified" xmlns:mvc="sap.ui.core.mvc">
-	<Panel expandable="true" expanded="false" headerText="Carta d'Identità" width="auto" class="sapUiResponsiveMargin">
+	<Panel expandable="true" expanded="false" headerText="Carta d'Identità" visible="false" width="auto" class="sapUiResponsiveMargin">
 		<content>
 			<UploadCollection id="CartaIdentita" maximumFilenameLength="{settings>/maximumFilenameLength}" maximumFileSize="{settings>/maximumFileSize}"
 				multiple="true" change="onChange" fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileRenamed="onFileRenamed"
@@ -97,7 +97,7 @@
 			</UploadCollection>
 		</content>
 	</Panel>
-	<Panel expandable="true" expanded="false" headerText="Pagamenti" width="auto" class="sapUiResponsiveMargin">
+	<Panel expandable="true" expanded="false" headerText="Pagamenti" visible="false" width="auto" class="sapUiResponsiveMargin">
 		<content>
 			<UploadCollection id="Pagamenti" maximumFilenameLength="{settings>/maximumFilenameLength}" maximumFileSize="{settings>/maximumFileSize}"
 				multiple="true" change="onChange" fileDeleted="onFileDeleted" filenameLengthExceed="onFilenameLengthExceed" fileRenamed="onFileRenamed"

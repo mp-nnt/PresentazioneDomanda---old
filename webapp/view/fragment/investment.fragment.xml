@@ -2,8 +2,7 @@
 	xmlns:u="sap.ui.unified">
 	<f:Form editable="true" id="investmentForm" width="100%" class="investimento-form">
 		<f:layout>
-			<f:ResponsiveGridLayout labelSpanXL="4" labelSpanL="3" labelSpanM="4" labelSpanS="12" adjustLabelSpan="false" emptySpanXL="0" emptySpanL="4"
-				emptySpanM="0" emptySpanS="0" columnsXL="2" columnsL="1" columnsM="1" singleContainerFullSize="true"/>
+			<f:GridLayout singleColumn="true"/>
 		</f:layout>
 		<f:formContainers>
 			<f:FormContainer title="{i18n>tableA}">
@@ -11,6 +10,12 @@
 					<f:FormElement>
 						<f:fields>
 							<t:Table selectionMode="None" rows="{/tableA}" visibleRowCount="5">
+								<t:extension>
+									<OverflowToolbar>
+										<ToolbarSpacer/>
+										<Button icon="sap-icon://add" press="addRows" type="Transparent"/>
+									</OverflowToolbar>
+								</t:extension>
 								<t:columns>
 									<t:Column sortProperty="tipologia" filterProperty="tipologia">
 										<t:multiLabels>
