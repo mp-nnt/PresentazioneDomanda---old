@@ -76,8 +76,8 @@
 				<footer>
 					<Toolbar>
 						<ToolbarSpacer/>
-						<Button text="Salva Bozza" id="btn_save" type="Default" icon="sap-icon://save" press="onSave"/>
-						<Button text="Conferma" id="btn_confirm" type="Accept" icon="sap-icon://approvals" press="onConfirm"/>
+						<Button text="{i18n>save}" id="btn_save" type="Default" icon="sap-icon://save" press="onSave"/>
+						<Button text="{i18n>confirm}" id="btn_confirm" type="Accept" icon="sap-icon://approvals" press="onConfirm"/>
 					</Toolbar>
 				</footer>
 			</Page>

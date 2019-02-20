@@ -242,7 +242,7 @@ sap.ui.define([
 					"X-CSRF-Token": token
 				},
 				success: function (result, xhr, data) {
-					sap.m.MessageToast.show("Task Saved");
+					sap.m.MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("TaskSaved"));
 					this.getView().setBusy(false);
 					this.getOwnerComponent().taskId = null;
 				}.bind(this),
@@ -340,7 +340,7 @@ sap.ui.define([
 				this.completeTask(false);
 			} else {
 				this.getView().setBusy(false);
-				var msg = 'Dati mancanti o errati';
+				var msg = this.getView().getModel("i18n").getResourceBundle().getText("MsgErr");
 				MessageToast.show(msg);
 			}
 		},
@@ -354,7 +354,7 @@ sap.ui.define([
 
 				var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
 				MessageBox.warning(
-					"Confermare?", {
+					this.getView().getModel("i18n").getResourceBundle().getText("Conf"), {
 						actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
 						styleClass: bCompact ? "sapUiSizeCompact" : "",
 						onClose: function (sAction) {
@@ -363,14 +363,14 @@ sap.ui.define([
 								this.requestCreation(); //inserire nell'azione in risposta al ok
 							} else {
 								this.getView().setBusy(false);
-								MessageToast.show("Operazione annullata");
+								MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpAnn"));
 							}
 						}.bind(this)
 					}
 				);
 			} else {
 				this.getView().setBusy(false);
-				var msg = 'Dati mancanti o errati';
+				var msg = this.getView().getModel("i18n").getResourceBundle().getText("MsgErr");
 				MessageToast.show(msg);
 			}
 
@@ -393,7 +393,10 @@ sap.ui.define([
 				this.getView().getModel().setProperty("/guid", reqGuid);
 				this.getView().setBusy(false);
 				this.completeTask(true);
-				sap.m.MessageToast.show("Richiesta creata" + " Numero Protocollo: " + reqNumProt + " Codice Fascicolo: " + reqCodFasc);
+				var RichiestaCreata = this.getView().getModel("i18n").getResourceBundle().getText("RichiestaCreata");
+				var CodProt = this.getView().getModel("i18n").getResourceBundle().getText("CodProt");
+				var CodFasc = this.getView().getModel("i18n").getResourceBundle().getText("CodFasc");
+				sap.m.MessageToast.show(RichiestaCreata + ' ' + CodProt + reqNumProt + CodFasc + reqCodFasc);
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
 			}.bind(this);
@@ -581,7 +584,7 @@ sap.ui.define([
 					if (oModel.getProperty("/claim3_3")) {
 						entity["Zzfld000016"] = "X"; //sgravi
 					}
-					entity["Zzfld000017"] = tableS[i].importoEuro; //importo sgravi
+					entity["Zzfld000030"] = tableS[i].importoEuro; //importo sgravi
 
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}
@@ -981,25 +984,25 @@ sap.ui.define([
 
 			if ((this.getView().byId("box1").getSelected()) && (this.getView().byId("tableC_1").getValue() == '')) {
 				this.getView().byId("tableC_1").setValueState("Error");
-				this.getView().byId("tableC_1").setValueStateText("Inserire il testo");
+				this.getView().byId("tableC_1").setValueStateText(this.getView().getModel("i18n").getResourceBundle().getText("InsTest"));
 				p = true;
 			}
 
 			if ((this.getView().byId("box2").getSelected()) && this.getView().byId("tableC_2").getValue() == '') {
 				this.getView().byId("tableC_2").setValueState("Error");
-				this.getView().byId("tableC_2").setValueStateText("Inserire il testo");
+				this.getView().byId("tableC_2").setValueStateText(this.getView().getModel("i18n").getResourceBundle().getText("InsTest"));
 				p = true;
 			}
 
 			if ((this.getView().byId("box3").getSelected()) && this.getView().byId("tableC_3").getValue() == '') {
 				this.getView().byId("tableC_3").setValueState("Error");
-				this.getView().byId("tableC_3").setValueStateText("Inserire il testo");
+				this.getView().byId("tableC_3").setValueStateText(this.getView().getModel("i18n").getResourceBundle().getText("InsTest"));
 				p = true;
 			}
 
 			if ((this.getView().byId("box4").getSelected()) && this.getView().byId("tableC_4").getValue() == '') {
 				this.getView().byId("tableC_4").setValueState("Error");
-				this.getView().byId("tableC_4").setValueStateText("Inserire il testo");
+				this.getView().byId("tableC_4").setValueStateText(this.getView().getModel("i18n").getResourceBundle().getText("InsTest"));
 				p = true;
 			}
 
@@ -1022,7 +1025,7 @@ sap.ui.define([
 			for (var i in tableA) {
 				if ((tableA[i].inizio < currentDate || tableA[i].inizio >= tableA[i].fine) && tableA[i].inizio !== "") {
 					tableA[i].statei = "Error";
-					tableA[i].stateValuei = "Inserire data di inizio corretta";
+					tableA[i].stateValuei = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				} else {
 					tableA[i].statei = "None";
@@ -1030,7 +1033,7 @@ sap.ui.define([
 				}
 				if (tableA[i].fine >= endDate) {
 					tableA[i].statef = "Error";
-					tableA[i].stateValuef = "Inserire data di fine corretta";
+					tableA[i].stateValuef = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				} else {
 					tableA[i].statef = "None";
@@ -1039,9 +1042,9 @@ sap.ui.define([
 
 				if (tableA[i].inizio > tableA[i].fine) {
 					tableA[i].statei = "Error";
-					tableA[i].stateValuei = "Inserire data di inizio corretta";
+					tableA[i].stateValuei = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					tableA[i].statef = "Error";
-					tableA[i].stateValuef = "Inserire data di fine corretta";
+					tableA[i].stateValuef = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				}
 			}
@@ -1049,7 +1052,7 @@ sap.ui.define([
 			for (var j in tableB) {
 				if ((tableB[j].inizio < currentDate || tableB[j].inizio >= tableB[j].fine) && tableB[j].inizio !== "") {
 					tableB[j].statei = "Error";
-					tableB[j].stateValuei = "Inserire data di inizio corretta";
+					tableB[j].stateValuei = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				} else {
 					tableB[j].statei = "None";
@@ -1058,7 +1061,7 @@ sap.ui.define([
 				if (tableB[j].fine >= endDate) {
 
 					tableB[j].statef = "Error";
-					tableB[j].stateValuef = "Inserire data di fine corretta";
+					tableB[j].stateValuef = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				} else {
 					tableB[j].statef = "None";
@@ -1067,9 +1070,9 @@ sap.ui.define([
 
 				if (tableB[j].inizio > tableB[j].fine) {
 					tableB[j].statei = "Error";
-					tableB[j].stateValuei = "Inserire data di inizio corretta";
+					tableB[j].stateValuei = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					tableB[j].statef = "Error";
-					tableB[j].stateValuef = "Inserire data di fine corretta";
+					tableB[j].stateValuef = this.getView().getModel("i18n").getResourceBundle().getText("InsTest_1");
 					p = true;
 				}
 			}

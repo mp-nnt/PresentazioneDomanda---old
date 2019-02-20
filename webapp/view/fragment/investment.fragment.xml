@@ -19,7 +19,7 @@
 								<t:columns>
 									<t:Column sortProperty="tipologia" filterProperty="tipologia">
 										<t:multiLabels>
-											<Label text="Tipologia degli investimenti e luogo" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvTipologia}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Input value="{tipologia}" class="investimento-form-input"/>
@@ -27,8 +27,8 @@
 									</t:Column>
 									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
 										<t:multiLabels>
-											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
-											<Label text="Dal" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvInF}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvDal}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
@@ -37,8 +37,8 @@
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
 										<t:multiLabels>
-											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
-											<Label text="Fine" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvInF}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>Fine}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
@@ -47,7 +47,7 @@
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
 										<t:multiLabels>
-											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvImpEuro}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" textAlign="Right" change="onTableAChange"
@@ -73,7 +73,7 @@
 								<t:columns>
 									<t:Column sortProperty="tipologia" filterProperty="tipologia">
 										<t:multiLabels>
-											<Label text="Tipologia degli investimenti" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvTipologia_1}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Text text="{tipologia}"/>
@@ -81,7 +81,7 @@
 									</t:Column>
 									<t:Column sortProperty="luogo" filterProperty="luogo">
 										<t:multiLabels>
-											<Label text="Luogo" textAlign="Center" width="100%"/>
+											<Label text="{i18n>Luogo}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Input value="{luogo}" class="investimento-form-input"/>
@@ -89,8 +89,8 @@
 									</t:Column>
 									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">
 										<t:multiLabels>
-											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
-											<Label text="Dal" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvInF}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvDal}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'inizio', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
@@ -99,8 +99,8 @@
 									</t:Column>
 									<t:Column sortProperty="fine" filterProperty="fine">
 										<t:multiLabels>
-											<Label text="Inizio - Fine" textAlign="Center" width="100%"/>
-											<Label text="Fine" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvInF}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvFine}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<DatePicker value="{path: 'fine', type : 'sap.ui.model.odata.type.DateTime', constraints : {displayFormat : 'Date'}}" placeholder=" "
@@ -109,7 +109,7 @@
 									</t:Column>
 									<t:Column sortProperty="importoEuro" filterProperty="importoEuro">
 										<t:multiLabels>
-											<Label text="Imponibile Euro" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvImpEuro}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" textAlign="Right" change="onTableBChange"
