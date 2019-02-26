@@ -75,7 +75,7 @@
 	"noteStat": "",
 	"tableA": [{
 		"tipologia": "",
-		"luogo": "",
+		"descrizione": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
@@ -87,7 +87,7 @@
 		"tipo_1": ""
 	}, {
 		"tipologia": "",
-		"luogo": "",
+		"descrizione": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
@@ -99,7 +99,7 @@
 		"tipo_1": ""
 	}, {
 		"tipologia": "",
-		"luogo": "",
+		"descrizione": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
@@ -111,7 +111,7 @@
 		"tipo_1": ""
 	}, {
 		"tipologia": "",
-		"luogo": "",
+		"descrizione": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
@@ -123,7 +123,7 @@
 		"tipo_1": ""
 	}, {
 		"tipologia": "",
-		"luogo": "",
+		"descrizione": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",

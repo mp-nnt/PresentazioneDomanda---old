@@ -19,7 +19,7 @@
 								<t:columns>
 									<t:Column sortProperty="tipologia" filterProperty="tipologia">
 										<t:multiLabels>
-											<Label text="{i18n>InvTipologia}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvTipologia_1}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Select forceSelection="false" selectedKey="" items="{ path: 'ScelteInvestment>/ScelteInvestment', sorter: 'ScelteInvestment>Name' }"
@@ -30,7 +30,7 @@
 									</t:Column>
 									<t:Column sortProperty="luogo" filterProperty="luogo">
 										<t:multiLabels>
-											<Label text="{i18n>Luogo}" textAlign="Center" width="100%"/>
+											<Label text="{i18n>InvDescrizione}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
 											<Input value="{luogo}" class="investimento-form-input"/>

@@ -80,23 +80,20 @@ sap.ui.define([
 				var oModel = that.getView().getModel();
 				that.onProcessInfo(oModel);
 			});
-			
-				var oData1 = {			//nuovo Modello creato per le scelte nell'investment
-				"ScelteInvestment": [
-					{
-						"ChoiceId": "A",
-						"Name": "Beni strumentali"
-					},
-					{
-						"ChoiceId": "B",
-						"Name": "Altri Beni"
-					}
-				]
+
+			var oData1 = { //nuovo Modello creato per le scelte nell'investment
+				"ScelteInvestment": [{
+					"ChoiceId": "A",
+					"Name": "Beni strumentali"
+				}, {
+					"ChoiceId": "B",
+					"Name": "Altri Beni"
+				}]
 			};
 
 			// set explored app's demo model on this sample
 			var oModel = new JSONModel(oData1);
-			this.getView().setModel(oModel,"ScelteInvestment");
+			this.getView().setModel(oModel, "ScelteInvestment");
 
 		},
 
@@ -189,6 +186,23 @@ sap.ui.define([
 					//MessageBox.error(err.message);
 					console.log(err.message);
 				}
+			});
+
+		},
+
+		_getRequestData: function (guid) {
+
+			var data = this.getView().getModel().getData();
+			var oDataModel = this.getView().getModel("oData");
+			var sPath = "/nuovaRichiestaSet(Guid='" + guid + "',ObjectId='')";
+			oDataModel.read(sPath, {
+				"success": function (oData) {
+					var richiestaCreata = this.getView().getModel("i18n").getResourceBundle().getText("RichiestaCreata");
+					richiestaCreata = richiestaCreata.replace("&1", oData.Zzfld00000u);
+					richiestaCreata = richiestaCreata.replace("&2", oData.Zzfld000019);
+					sap.m.MessageToast.show(richiestaCreata);
+				}.bind(this),
+				"error": function (err) {}
 			});
 
 		},
@@ -404,16 +418,21 @@ sap.ui.define([
 			};
 
 			var batchSuccess = function (oData) {
-				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
-				var reqNumProt = oData.__batchResponses[0].__changeResponses[0].data.Zzfld00000u; //
-				var reqCodFasc = oData.__batchResponses[0].__changeResponses[0].data.Zzfld000019;
-				this.getView().getModel().setProperty("/guid", reqGuid);
+
 				this.getView().setBusy(false);
+
+				if (oData.__batchResponses[0].response.statusCode !== '200') {
+					var json = JSON.parse(oData.__batchResponses[0].response.body);
+					var oBodyModel = new JSONModel(json);
+					var error = oBodyModel.getData().error.message.value;
+					sap.m.MessageBox.error(error);
+					return;
+				}
+
+				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
+				this.getView().getModel().setProperty("/guid", reqGuid);
 				this.completeTask(true);
-				var RichiestaCreata = this.getView().getModel("i18n").getResourceBundle().getText("RichiestaCreata");
-				var CodProt = this.getView().getModel("i18n").getResourceBundle().getText("CodProt");
-				var CodFasc = this.getView().getModel("i18n").getResourceBundle().getText("CodFasc");
-				sap.m.MessageToast.show(RichiestaCreata + ' ' + CodProt + reqNumProt + CodFasc + reqCodFasc);
+				this._getRequestData(reqGuid);
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
 			}.bind(this);
@@ -554,7 +573,8 @@ sap.ui.define([
 				if (tableA[i].importoEuro !== "" && !isNaN(tableA[i].importoEuro[0])) {
 
 					entity = {};
-					entity["Description"] = tableA[i].tipologia;
+					entity["Zzfld00002y"] = tableA[i].tipologia;
+					entity["Description"] = tableA[i].descrizione;
 					if (tableA[i].inizio !== "") {
 						entity["DataInizio"] = tableA[i].inizio;
 					}
@@ -1023,7 +1043,8 @@ sap.ui.define([
 				p = true;
 			}
 
-			if ((!this.getView().byId("box1").getSelected()) && (!this.getView().byId("box2").getSelected()) && (!this.getView().byId("box3").getSelected()) &&
+			if ((!this.getView().byId("box1").getSelected()) && (!this.getView().byId("box2").getSelected()) && (!this.getView().byId("box3")
+					.getSelected()) &&
 				(!this.getView().byId("box4").getSelected())) {
 				p = true;
 				this.getView().byId("errorMessage").setVisible(true);
@@ -1093,13 +1114,13 @@ sap.ui.define([
 					p = true;
 				}
 			}
-			
-			for (var i in tableA){
-				
-				if (tableA[i].importoEuro!=""&&tableA[i].tipologia=="") {
-				tableA[i].tipo="Error";
-				p = true;
-			
+
+			for (var i in tableA) {
+
+				if (tableA[i].importoEuro != "" && tableA[i].tipologia == "") {
+					tableA[i].tipo = "Error";
+					p = true;
+
 				}
 			}
 			oModel.refresh();
@@ -1155,21 +1176,23 @@ sap.ui.define([
 			});
 			oModel.refresh();
 		},
-		
-		onDataModel_2: function(oEvent){
+
+		onDataModel_2: function (oEvent) {
 			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
 			var tableA = oModel.getProperty("/tableA");
 			var a = oEvent.getSource().getBindingContext().sPath.substring(8);
 			tableA[a].tipologia = oEvent.getSource().getSelectedKey();
-		//	debugger;
-		
-		//
-		
-		for (var i in tableA){
-			if(tableA[i].tipologia!=""){
-				tableA[i].tipo="None";	
-			}}oModel.refresh();
-		
+			//	debugger;
+
+			//
+
+			for (var i in tableA) {
+				if (tableA[i].tipologia != "") {
+					tableA[i].tipo = "None";
+				}
+			}
+			oModel.refresh();
+
 		}
 	});
 });
