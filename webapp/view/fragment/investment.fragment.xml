@@ -9,7 +9,7 @@
 				<f:formElements>
 					<f:FormElement>
 						<f:fields>
-							<t:Table selectionMode="None" rows="{/tableA}" visibleRowCount="5">
+							<t:Table rows="{/tableA}" selectionMode="None" visibleRowCount="4">
 								<t:extension>
 									<OverflowToolbar>
 										<ToolbarSpacer/>
@@ -22,7 +22,18 @@
 											<Label text="{i18n>InvTipologia}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Input value="{tipologia}" class="investimento-form-input"/>
+											<Select forceSelection="false" selectedKey="" items="{ path: 'ScelteInvestment>/ScelteInvestment', sorter: 'ScelteInvestment>Name' }"
+												change="onDataModel_2" valueState="{tipo}" valueStateText="{i18n>InsTest_2}">
+												<core:Item key="{ScelteInvestment>ChoiceId}" text="{ScelteInvestment>Name}"/>
+											</Select>
+										</t:template>
+									</t:Column>
+									<t:Column sortProperty="luogo" filterProperty="luogo">
+										<t:multiLabels>
+											<Label text="{i18n>Luogo}" textAlign="Center" width="100%"/>
+										</t:multiLabels>
+										<t:template>
+											<Input value="{luogo}" class="investimento-form-input"/>
 										</t:template>
 									</t:Column>
 									<t:Column sortProperty="inizio" filterProperty="inizio" headerSpan="2,1">

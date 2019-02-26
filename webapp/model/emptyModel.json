@@ -75,49 +75,64 @@
 	"noteStat": "",
 	"tableA": [{
 		"tipologia": "",
+		"luogo": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
 		"statei": "None",
 		"stateValuei": "",
 		"statef": "None",
-		"stateValuef": ""
+		"stateValuef": "",
+		"tipo": "None",
+		"tipo_1": ""
 	}, {
 		"tipologia": "",
+		"luogo": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
 		"statei": "None",
 		"stateValuei": "",
 		"statef": "None",
-		"stateValuef": ""
+		"stateValuef": "",
+		"tipo": "None",
+		"tipo_1": ""
 	}, {
 		"tipologia": "",
+		"luogo": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
 		"statei": "None",
 		"stateValuei": "",
 		"statef": "None",
-		"stateValuef": ""
+		"stateValuef": "",
+		"tipo": "None",
+		"tipo_1": ""
 	}, {
 		"tipologia": "",
+		"luogo": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
 		"statei": "None",
 		"stateValuei": "",
 		"statef": "None",
-		"stateValuef": ""
+		"stateValuef": "",
+		"tipo": "None",
+		"tipo_1": ""
 	}, {
 		"tipologia": "",
+		"luogo": "",
 		"inizio": "",
 		"fine": "",
 		"importoEuro": "",
 		"statei": "None",
 		"stateValuei": "",
 		"statef": "None",
-		"stateValuef": ""
+		"stateValuef": "",
+		"tipo": "None",
+		"tipo_1": ""
 	}],
 	"totalA": 0,
 	"tableB": [{
@@ -214,6 +229,24 @@
 	"data": "",
 	"signature": "",
 	"Settlement": [{
+		"fornitore": "",
+		"descrizione": "",
+		"fattura": "",
+		"dataS": "",
+		"imponibile": ""
+	}, {
+		"fornitore": "",
+		"descrizione": "",
+		"fattura": "",
+		"dataS": "",
+		"imponibile": ""
+	}, {
+		"fornitore": "",
+		"descrizione": "",
+		"fattura": "",
+		"dataS": "",
+		"imponibile": ""
+	}, {
 		"fornitore": "",
 		"descrizione": "",
 		"fattura": "",

@@ -80,6 +80,23 @@ sap.ui.define([
 				var oModel = that.getView().getModel();
 				that.onProcessInfo(oModel);
 			});
+			
+				var oData1 = {			//nuovo Modello creato per le scelte nell'investment
+				"ScelteInvestment": [
+					{
+						"ChoiceId": "A",
+						"Name": "Beni strumentali"
+					},
+					{
+						"ChoiceId": "B",
+						"Name": "Altri Beni"
+					}
+				]
+			};
+
+			// set explored app's demo model on this sample
+			var oModel = new JSONModel(oData1);
+			this.getView().setModel(oModel,"ScelteInvestment");
 
 		},
 
@@ -1076,9 +1093,16 @@ sap.ui.define([
 					p = true;
 				}
 			}
-
+			
+			for (var i in tableA){
+				
+				if (tableA[i].importoEuro!=""&&tableA[i].tipologia=="") {
+				tableA[i].tipo="Error";
+				p = true;
+			
+				}
+			}
 			oModel.refresh();
-			// fine check controllo calendario
 			return p;
 		},
 
@@ -1121,6 +1145,31 @@ sap.ui.define([
 				stateValuef: ''
 			});
 			oModel.refresh();
+		},
+		addRows_1: function () {
+			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
+			var Table = oModel.getProperty("/claim3_tbl");
+			Table.push({
+				tipologia: '',
+				importoEuro: ''
+			});
+			oModel.refresh();
+		},
+		
+		onDataModel_2: function(oEvent){
+			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
+			var tableA = oModel.getProperty("/tableA");
+			var a = oEvent.getSource().getBindingContext().sPath.substring(8);
+			tableA[a].tipologia = oEvent.getSource().getSelectedKey();
+		//	debugger;
+		
+		//
+		
+		for (var i in tableA){
+			if(tableA[i].tipologia!=""){
+				tableA[i].tipo="None";	
+			}}oModel.refresh();
+		
 		}
 	});
 });

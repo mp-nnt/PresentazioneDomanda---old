@@ -58,7 +58,13 @@
 								<CheckBox text="{i18n>claim3_1}" selected="{/claim3_1}" wrapping="true"/>
 								<CheckBox text="{i18n>claim3_2}" selected="{/claim3_2}" wrapping="true"/>
 								<CheckBox text="{i18n>claim3_3}" selected="{/claim3_3}" wrapping="true"/>
-								<t:Table rows="{/claim3_tbl}" selectionMode="None" visibleRowCount="4">
+								<t:Table rows="{/claim3_tbl}" selectionMode="None" visibleRowCount="5">
+									<t:extension>
+										<OverflowToolbar>
+											<ToolbarSpacer/>
+											<Button icon="sap-icon://add" press="addRows_1" type="Transparent"/>
+										</OverflowToolbar>
+									</t:extension>
 									<t:columns>
 										<t:Column>
 											<Label text="{i18n>claim3_tipo}"/>
@@ -69,7 +75,7 @@
 										<t:Column>
 											<Label text="{i18n>claim3_importo}"/>
 											<t:template>
-												<Input value="{importoEuro}" type="Number" class="dichiarazioni-form-input"/>
+												<Input value="{path:'importoEuro', type:'sap.ui.model.type.Currency'}" textAlign="Right" class="dichiarazioni-form-input"/>
 											</t:template>
 										</t:Column>
 									</t:columns>
