@@ -161,7 +161,6 @@ sap.ui.define([
 					}.bind(this),
 					"error": function (err) {
 						//MessageBox.error(err.message);
-						console.log(err.message);
 					}
 				});
 			}
@@ -184,25 +183,33 @@ sap.ui.define([
 				}.bind(this),
 				"error": function (err) {
 					//MessageBox.error(err.message);
-					console.log(err.message);
 				}
 			});
 
 		},
 
-		_getRequestData: function (guid) {
+		_getRequestData: function () {
+
+			this.getView().byId("btn_reqData").setVisible(true);
 
 			var data = this.getView().getModel().getData();
+			var guid = data.guid;
+
 			var oDataModel = this.getView().getModel("oData");
 			var sPath = "/nuovaRichiestaSet(Guid='" + guid + "',ObjectId='')";
+			var richiestaCreata = this.getView().getModel("i18n").getResourceBundle().getText("RichiestaCreata");
 			oDataModel.read(sPath, {
 				"success": function (oData) {
-					var richiestaCreata = this.getView().getModel("i18n").getResourceBundle().getText("RichiestaCreata");
-					richiestaCreata = richiestaCreata.replace("&1", oData.Zzfld00000u);
-					richiestaCreata = richiestaCreata.replace("&2", oData.Zzfld000019);
-					sap.m.MessageToast.show(richiestaCreata);
+					//Richiesta creata Codice protocollo: &1 - Codice fascicolo: &2
+					var attributiRichiesta = this.getView().getModel("i18n").getResourceBundle().getText("AttributiRichiesta");
+					attributiRichiesta = attributiRichiesta.replace("&1", oData.Zzfld00001g);
+					attributiRichiesta = attributiRichiesta.replace("&2", oData.Zzfld000019);
+					sap.m.MessageToast.show(richiestaCreata + '\n' + attributiRichiesta);
 				}.bind(this),
-				"error": function (err) {}
+				"error": function (err) {
+					//è in errore il recupero degli attributi ma la richiesta è stata creata
+					sap.m.MessageToast.show(richiestaCreata);
+				}
 			});
 
 		},
@@ -421,18 +428,21 @@ sap.ui.define([
 
 				this.getView().setBusy(false);
 
-				if (oData.__batchResponses[0].response.statusCode !== '200') {
-					var json = JSON.parse(oData.__batchResponses[0].response.body);
-					var oBodyModel = new JSONModel(json);
-					var error = oBodyModel.getData().error.message.value;
-					sap.m.MessageBox.error(error);
-					return;
+				var response = oData.__batchResponses[0].response;
+				if (response !== undefined) {
+					if (response.statusCode !== '200') {
+						var json = JSON.parse(oData.__batchResponses[0].response.body);
+						var oBodyModel = new JSONModel(json);
+						var error = oBodyModel.getData().error.message.value;
+						sap.m.MessageBox.error(error);
+						return;
+					}
 				}
 
 				var reqGuid = oData.__batchResponses[0].__changeResponses[0].data.Guid;
 				this.getView().getModel().setProperty("/guid", reqGuid);
 				this.completeTask(true);
-				this._getRequestData(reqGuid);
+				this._getRequestData();
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
 			}.bind(this);
@@ -573,7 +583,7 @@ sap.ui.define([
 				if (tableA[i].importoEuro !== "" && !isNaN(tableA[i].importoEuro[0])) {
 
 					entity = {};
-					entity["Zzfld00002y"] = tableA[i].tipologia;
+					entity["Zzfld00002y"] = tableA[i].tipologia.key;
 					entity["Description"] = tableA[i].descrizione;
 					if (tableA[i].inizio !== "") {
 						entity["DataInizio"] = tableA[i].inizio;
@@ -621,7 +631,7 @@ sap.ui.define([
 					if (oModel.getProperty("/claim3_3")) {
 						entity["Zzfld000016"] = "X"; //sgravi
 					}
-					entity["Zzfld000030"] = tableS[i].importoEuro; //importo sgravi
+					entity["Zzfld000030"] = tableS[i].importoEuro[0].toString(); //importo sgravi
 
 					oDataModel.create("/posizioniRichiestaSet", entity, param);
 				}
@@ -1117,7 +1127,7 @@ sap.ui.define([
 
 			for (var i in tableA) {
 
-				if (tableA[i].importoEuro != "" && tableA[i].tipologia == "") {
+				if (tableA[i].importoEuro != "" && tableA[i].tipologia.key == "") {
 					tableA[i].tipo = "Error";
 					p = true;
 
@@ -1156,7 +1166,10 @@ sap.ui.define([
 			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
 			var Table = oModel.getProperty("/tableA");
 			Table.push({
-				tipologia: '',
+				tipologia: {
+					key: '',
+					name: ''
+				},
 				inizio: '',
 				fine: '',
 				importoEuro: '',
@@ -1181,13 +1194,18 @@ sap.ui.define([
 			var oModel = this.getView().getModel(); //VARIABILE LOCALE oModel
 			var tableA = oModel.getProperty("/tableA");
 			var a = oEvent.getSource().getBindingContext().sPath.substring(8);
-			tableA[a].tipologia = oEvent.getSource().getSelectedKey();
+			tableA[a].tipologia.key = oEvent.getSource().getSelectedKey();
+			if (tableA[a].tipologia.key === "A") {
+				tableA[a].tipologia.name = "Beni strumentali";
+			} else if (tableA[a].tipologia.key === "B") {
+				tableA[a].tipologia.name = "Altri Beni";
+			}
 			//	debugger;
 
 			//
 
 			for (var i in tableA) {
-				if (tableA[i].tipologia != "") {
+				if (tableA[i].tipologia.key != "") {
 					tableA[i].tipo = "None";
 				}
 			}

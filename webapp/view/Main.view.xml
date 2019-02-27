@@ -78,6 +78,7 @@
 						<ToolbarSpacer/>
 						<Button text="{i18n>save}" id="btn_save" type="Default" icon="sap-icon://save" press="onSave"/>
 						<Button text="{i18n>confirm}" id="btn_confirm" type="Accept" icon="sap-icon://approvals" press="onConfirm"/>
+						<Button text="Aggiorna" id="btn_reqData" type="Accept" visible="false" icon="sap-icon://approvals" press="_getRequestData"/>
 					</Toolbar>
 				</footer>
 			</Page>
