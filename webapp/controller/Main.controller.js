@@ -79,6 +79,43 @@ sap.ui.define([
 			$(window).bind("load", function () {
 				var oModel = that.getView().getModel();
 				that.onProcessInfo(oModel);
+				var oModel = that.getView().getModel();
+				var tableA = oModel.getProperty("/tableA");
+				var tableB = oModel.getProperty("/tableB");
+
+				for (var i in tableA) {
+
+					if (tableA[i].inizio != "") {
+						tableA[i].inizio = new Date(tableA[i].inizio);
+					}
+					oModel.refresh();
+
+					if (tableA[i].fine != "") {
+						tableA[i].fine = new Date(tableA[i].fine);
+					}
+					oModel.refresh();
+
+				}
+
+				for (var i in tableB) {
+
+					if (tableB[i].inizio != "") {
+						tableB[i].inizio = new Date(tableB[i].inizio);
+					}
+					oModel.refresh();
+
+					if (tableB[i].fine != "") {
+						tableB[i].fine = new Date(tableB[i].fine);
+					}
+					oModel.refresh();
+
+				}
+
+				var dataMB = oModel.getProperty("/stamp_duty_date");
+				dataMB = new Date(dataMB);
+				oModel.setProperty("/stamp_duty_date", dataMB);
+				oModel.refresh();
+
 			});
 
 			var oData1 = { //nuovo Modello creato per le scelte nell'investment
