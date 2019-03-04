@@ -815,7 +815,7 @@ sap.ui.define([
 			that.uploadJSON.fileId = jQuery.now().toString();
 			that.uploadJSON.fileName = file.name;
 			that.uploadJSON.fileMimeType = file.type;
-			that.uploadJSON.fileDimension = (file.size / 1000).toFixed(1) + " kB";
+			that.uploadJSON.fileDimension = (file.size / 1000).toFixed(2) + " kB";
 			that.uploadJSON.fileExtension = file.name.split(".")[1];
 			that.uploadJSON.fileUploadDate = new Date(jQuery.now()).toLocaleDateString();
 			reader.onload = function (e) {
