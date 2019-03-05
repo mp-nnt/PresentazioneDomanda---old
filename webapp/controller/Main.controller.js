@@ -112,9 +112,11 @@ sap.ui.define([
 				}
 
 				var dataMB = oModel.getProperty("/stamp_duty_date");
-				dataMB = new Date(dataMB);
-				oModel.setProperty("/stamp_duty_date", dataMB);
-				oModel.refresh();
+				if (dataMB !== "") {
+					dataMB = new Date(dataMB);
+					oModel.setProperty("/stamp_duty_date", dataMB);
+					oModel.refresh();
+				}
 
 			});
 
@@ -262,39 +264,37 @@ sap.ui.define([
 			var oModel = this.getView().getModel();
 			oModel.setProperty("/confirm", approvalStatus);
 
-			if (taskId === null) {
-
-				if (instanceId === null) {
-
-					oModel.setProperty("/Azienda", oModel.getData().piva);
-
-					// creo il task id
-					$.ajax({
-						url: "/bpmworkflowruntime/rest/v1/workflow-instances",
-						method: "POST",
-						contentType: "application/json",
-						async: false,
-						data: JSON.stringify({
-							definitionId: "bando",
-							context: oModel.getData()
-						}),
-						headers: {
-							"X-CSRF-Token": token
-						},
-						success: function (result, xhr, data) {
-							this.getOwnerComponent().instanceId = result.id;
-							this._taskIdfromInstance(result.id, token, true);
-						}.bind(this)
-					});
-
-				} else {
-					this._taskIdfromInstance(instanceId, token, true);
-				}
-
-			} else {
-				this._completeTask(taskId, oModel, token);
+			if (instanceId === null) {
+				oModel.setProperty("/Azienda", oModel.getData().piva);
+				// creo il task id
+				$.ajax({
+					url: "/bpmworkflowruntime/rest/v1/workflow-instances",
+					method: "POST",
+					contentType: "application/json",
+					async: false,
+					data: JSON.stringify({
+						definitionId: "bando",
+						context: oModel.getData()
+					}),
+					headers: {
+						"X-CSRF-Token": token
+					},
+					success: function (result, xhr, data) {
+						this.getOwnerComponent().instanceId = result.id;
+						instanceId = result.id;
+					}.bind(this)
+				});
 			}
 
+			if (!approvalStatus) {
+				this.saveContext(instanceId, true);
+			} else {
+				if (taskId === null) {
+					this._taskIdfromInstance(instanceId, token, true);
+				} else {
+					this._completeTask(taskId, oModel, token);
+				}
+			}
 		},
 
 		_completeTask: function (taskId, oModel, token) {
@@ -408,7 +408,9 @@ sap.ui.define([
 		},
 
 		deleteDraft: function (instanceId) {
+			this.deleteContext(instanceId);
 			var arrayBtn = ["btn_del", "btn_save", "btn_confirm"];
+			var arrayBtnLength = arrayBtn.length;
 			var token = this._fetchToken();
 			var statusDel = JSON.stringify({
 				"status": "CANCELED"
@@ -423,15 +425,80 @@ sap.ui.define([
 				},
 				data: statusDel,
 				success: function (result, xhr, data) {
+					this.getView().setBusy(false);
 					var i;
-					for (i = 0; i < 3; i++) {
+					for (i = 0; i < arrayBtnLength; i++) {
 						this.getView().byId(arrayBtn[i]).setEnabled(false);
 					}
 					MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpComp"));
 
 				}.bind(this),
-				error: function (data) {}
+				error: function (data) {
+					var saveResult = this.saveContext(instanceId, false);
+					if (saveResult) {
+						MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpFallRes"));
+					} else {
+						MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpFall"));
+					}
+				}.bind(this)
 			});
+		},
+
+		saveContext: function (instanceId, fromCompleteTask) {
+			var successfulSave;
+			var token = this._fetchToken();
+			var oModel = this.getView().getModel();
+			var contextData = JSON.stringify({
+				context: oModel.getData()
+			});
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/workflow-instances/" + instanceId + "/context",
+				method: "PUT",
+				contentType: "application/json",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				data: contextData,
+				success: function (result, xhr, data) {
+					this.getView().setBusy(false);
+					successfulSave = true;
+					if (fromCompleteTask) {
+						MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("BozSalv"));
+					}
+				}.bind(this),
+				error: function (data) {
+					this.getView().setBusy(false);
+					successfulSave = false;
+					if (fromCompleteTask) {
+						MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpFallSalv"));
+					}
+				}.bind(this)
+			});
+			return successfulSave;
+		},
+
+		deleteContext: function (instanceId) {
+			var successfulOp;
+			var token = this._fetchToken();
+			var contextData = JSON.stringify({});
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/workflow-instances/" + instanceId + "/context",
+				method: "PUT",
+				contentType: "application/json",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				data: contextData,
+				success: function (result, xhr, data) {
+					successfulOp = true;
+				},
+				error: function (data) {
+					successfulOp = false;
+				}
+			});
+			return successfulOp;
 		},
 		// ---------------------------------------------------------------------------------- End funzioni WF 
 
@@ -456,6 +523,7 @@ sap.ui.define([
 					styleClass: bCompact ? "sapUiSizeCompact" : "",
 					onClose: function (sAction) {
 						if (sAction === MessageBox.Action.OK) {
+							this.getView().setBusy(true);
 							this.deleteDraft(wfId);
 						} else {
 							MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpAnn"));
