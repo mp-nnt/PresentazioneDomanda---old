@@ -89,10 +89,10 @@
 		"tipo": "None",
 		"tipo_1": ""
 	}, {
-		"tipologia": [{
+		"tipologia": {
 			"key": "",
 			"name": ""
-		}],
+		},
 		"descrizione": "",
 		"inizio": "",
 		"fine": "",
@@ -104,10 +104,10 @@
 		"tipo": "None",
 		"tipo_1": ""
 	}, {
-		"tipologia": [{
+		"tipologia": {
 			"key": "",
 			"name": ""
-		}],
+		},
 		"descrizione": "",
 		"inizio": "",
 		"fine": "",
@@ -119,10 +119,10 @@
 		"tipo": "None",
 		"tipo_1": ""
 	}, {
-		"tipologia": [{
+		"tipologia": {
 			"key": "",
 			"name": ""
-		}],
+		},
 		"descrizione": "",
 		"inizio": "",
 		"fine": "",
@@ -134,10 +134,10 @@
 		"tipo": "None",
 		"tipo_1": ""
 	}, {
-		"tipologia": [{
+		"tipologia": {
 			"key": "",
 			"name": ""
-		}],
+		},
 		"descrizione": "",
 		"inizio": "",
 		"fine": "",

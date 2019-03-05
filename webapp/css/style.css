@@ -146,21 +146,27 @@ header #mycc_logo {
 /*BOTTONI FINE FORM*/
 
 span[id*='btn_save-inner'],
-span[id*='btn_confirm-inner'] {
+span[id*='btn_confirm-inner'],
+span[id*='btn_del-inner'],
+span[id*='btn_reqData-inner'] {
     background-color: #b4c420!important;
     border-color: #b4c420!important;
     border-radius: 4px;
 }
 
 span[id*='btn_save-inner'] span[id*='btn_save-content'],
-span[id*='btn_confirm-inner'] span[id*='btn_confirm-content'] {
+span[id*='btn_confirm-inner'] span[id*='btn_confirm-content'],
+span[id*='btn_del-inner'] span[id*='btn_del-content'],
+span[id*='btn_reqData-inner'] span[id*='btn_reqData-content'] {
     text-shadow: none;
     color: #000;
     font-weight: bold;
 }
 
 span[id*='btn_save-inner'] span[id*='btn_save-img'],
-span[id*='btn_confirm-inner'] span[id*='btn_confirm-img'] {
+span[id*='btn_confirm-inner'] span[id*='btn_confirm-img'],
+span[id*='btn_del-inner'] span[id*='btn_del-img'],
+span[id*='btn_reqData-inner'] span[id*='btn_reqData-img'] {
     text-shadow: none;
     color: #000!important;
 }

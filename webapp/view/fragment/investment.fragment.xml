@@ -22,8 +22,9 @@
 											<Label text="{i18n>InvTipologia_1}" textAlign="Center" width="100%"/>
 										</t:multiLabels>
 										<t:template>
-											<Select forceSelection="false" selectedKey="" items="{ path: 'ScelteInvestment>/ScelteInvestment', sorter: 'ScelteInvestment>Name' }"
-												change="onDataModel_2" valueState="{tipo}" valueStateText="{i18n>InsTest_2}">
+											<Select id="tipologiaS" forceSelection="false" selectedKey="{tipologia/key}" showSecondaryValues="true"
+												items="{ path: 'ScelteInvestment>/ScelteInvestment', sorter: 'ScelteInvestment>name' }" change="onDataModel_2" valueState="{tipo}"
+												valueStateText="{i18n>InsTest_2}">
 												<core:Item key="{ScelteInvestment>ChoiceId}" text="{ScelteInvestment>Name}"/>
 											</Select>
 										</t:template>

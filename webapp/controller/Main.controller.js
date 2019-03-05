@@ -406,6 +406,33 @@ sap.ui.define([
 			return taskId;
 
 		},
+
+		deleteDraft: function (instanceId) {
+			var arrayBtn = ["btn_del", "btn_save", "btn_confirm"];
+			var token = this._fetchToken();
+			var statusDel = JSON.stringify({
+				"status": "CANCELED"
+			});
+			$.ajax({
+				url: "/bpmworkflowruntime/rest/v1/workflow-instances/" + instanceId,
+				method: "PATCH",
+				contentType: "application/json",
+				async: false,
+				headers: {
+					"X-CSRF-Token": token
+				},
+				data: statusDel,
+				success: function (result, xhr, data) {
+					var i;
+					for (i = 0; i < 3; i++) {
+						this.getView().byId(arrayBtn[i]).setEnabled(false);
+					}
+					MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpComp"));
+
+				}.bind(this),
+				error: function (data) {}
+			});
+		},
 		// ---------------------------------------------------------------------------------- End funzioni WF 
 
 		// ---------------------------------------------------------------------------------- Start Azioni Toolbar
@@ -418,6 +445,24 @@ sap.ui.define([
 				var msg = this.getView().getModel("i18n").getResourceBundle().getText("MsgErr");
 				MessageToast.show(msg);
 			}
+		},
+
+		onDelete: function () {
+			var bCompact = !!this.getView().$().closest(".sapUiSizeCompact").length;
+			var wfId = this.getOwnerComponent().instanceId;
+			MessageBox.warning(
+				this.getView().getModel("i18n").getResourceBundle().getText("Del"), {
+					actions: [sap.m.MessageBox.Action.OK, sap.m.MessageBox.Action.CANCEL],
+					styleClass: bCompact ? "sapUiSizeCompact" : "",
+					onClose: function (sAction) {
+						if (sAction === MessageBox.Action.OK) {
+							this.deleteDraft(wfId);
+						} else {
+							MessageToast.show(this.getView().getModel("i18n").getResourceBundle().getText("OpAnn"));
+						}
+					}.bind(this)
+				}
+			);
 		},
 
 		onConfirm: function () {
@@ -482,6 +527,7 @@ sap.ui.define([
 				this._getRequestData();
 				this.getView().byId("btn_save").setEnabled(false);
 				this.getView().byId("btn_confirm").setEnabled(false);
+				this.getView().byId("btn_del").setEnabled(false);
 			}.bind(this);
 
 			var batchError = function (err) {
