@@ -17,7 +17,6 @@ sap.ui.define([
 		uploadJSON: {},
 		ArrayId: ["CartaIdentita", "Preventivi", "Dichiarazioni", "Pagamenti", "Altro"],
 		onInit: function () {
-
 			this.getView().setModel(new JSONModel({
 				"maximumFilenameLength": 80,
 				"maximumFileSize": 10,
@@ -448,9 +447,7 @@ sap.ui.define([
 			var successfulSave;
 			var token = this._fetchToken();
 			var oModel = this.getView().getModel();
-			var contextData = JSON.stringify({
-				context: oModel.getData()
-			});
+			var contextData = JSON.stringify(oModel.getData());
 			$.ajax({
 				url: "/bpmworkflowruntime/rest/v1/workflow-instances/" + instanceId + "/context",
 				method: "PUT",
